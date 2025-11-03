@@ -101,7 +101,7 @@ const MediaCard = ({ item, index }: { item: MediaItem; index: number }) => {
         </h4>
 
         {/* Article title */}
-        <h3 className="text-lg font-bold text-navy mb-3">
+        <h3 className="text-lg font-bold text-dark-blue mb-3">
           {item.title}
         </h3>
 
