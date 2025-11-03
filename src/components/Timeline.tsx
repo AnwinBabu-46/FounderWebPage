@@ -106,7 +106,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
           <div className="text-4xl mb-4 md:mb-6">{item.icon}</div>
 
           {/* Content */}
-          <h3 className="text-xl md:text-2xl font-bold text-navy mb-3">
+          <h3 className="text-xl md:text-2xl font-bold text-dark-blue mb-3">
             {item.title}
           </h3>
           <p className="text-gray-700 leading-relaxed">
