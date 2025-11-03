@@ -82,7 +82,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
   return (
     <div className="relative flex items-center mb-16 md:mb-20">
       {/* Arrow indicator */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 text-3xl text-navy z-20">
+      <div className="absolute left-1/2 transform -translate-x-1/2 text-3xl text-leaf-green z-20">
         {arrowDirection}
       </div>
 
