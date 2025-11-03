@@ -118,7 +118,7 @@ const MediaCard = ({ item, index }: { item: MediaItem; index: number }) => {
         </div>
 
         {/* Read more link */}
-        <div className="text-navy font-medium hover:text-navy/80 transition-colors text-sm">
+        <div className="text-leaf-green font-medium hover:text-dark-blue transition-colors text-sm">
           {isExpanded ? 'Show Less' : 'Read More →'}
         </div>
       </div>
