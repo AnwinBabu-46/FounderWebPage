@@ -116,7 +116,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
       </motion.div>
 
       {/* Center dot for desktop */}
-      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-navy rounded-full z-30"></div>
+      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-leaf-green rounded-full z-30"></div>
     </div>
   )
 }
