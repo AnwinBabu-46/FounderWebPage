@@ -78,7 +78,7 @@ const BlogCard = ({ post, index }: { post: BlogPost; index: number }) => {
         <div className="card h-full cursor-pointer group">
           {/* Category badge */}
           <div className="mb-4">
-            <span className="inline-block px-3 py-1 bg-peach text-navy text-sm font-medium rounded-full">
+            <span className="inline-block px-3 py-1 bg-leaf-green/10 text-leaf-green text-sm font-medium rounded-full border border-leaf-green/20">
               {post.category}
             </span>
           </div>
