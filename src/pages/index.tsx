@@ -47,7 +47,7 @@ const Home: NextPage = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-navy text-white py-8">
+      <footer className="bg-dark-blue text-white py-8">
         <div className="container mx-auto px-6">
           <div className="text-center">
             <p className="mb-2">
