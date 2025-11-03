@@ -144,7 +144,7 @@ const Timeline = () => {
 
         <div className="relative">
           {/* Vertical line for desktop */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-navy/30"></div>
+          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-leaf-green/30"></div>
 
           {/* Timeline items */}
           <div className="space-y-0">
