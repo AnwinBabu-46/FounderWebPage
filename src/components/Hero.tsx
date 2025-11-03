@@ -36,7 +36,7 @@ const Hero = () => {
           transition={{ duration: 1.2, delay: 0.4 }}
           className="overflow-hidden"
         >
-          <h3 className="text-xl md:text-2xl font-medium text-navy mb-6 leading-relaxed">
+          <h3 className="text-xl md:text-2xl font-medium text-dark-blue mb-6 leading-relaxed">
             Transforming how fresh, chemical-free food reaches Indian families
           </h3>
         </motion.div>
