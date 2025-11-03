@@ -156,7 +156,7 @@ const BlogPost = () => {
           {/* Article Header */}
           <header className="mb-12">
             <div className="mb-6">
-              <span className="inline-block px-3 py-1 bg-peach text-dark-blue text-sm font-medium rounded-full">
+              <span className="inline-block px-3 py-1 bg-leaf-green/10 text-dark-blue text-sm font-medium rounded-full">
                 {post.category}
               </span>
             </div>
