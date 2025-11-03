@@ -84,7 +84,7 @@ const BlogCard = ({ post, index }: { post: BlogPost; index: number }) => {
           </div>
 
           {/* Title */}
-          <h3 className="text-xl md:text-2xl font-bold text-navy mb-3 group-hover:text-navy/80 transition-colors">
+          <h3 className="text-xl md:text-2xl font-bold text-dark-blue mb-3 group-hover:text-leaf-green transition-colors">
             {post.title}
           </h3>
 
