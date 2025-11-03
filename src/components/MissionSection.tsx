@@ -75,7 +75,7 @@ const MissionCard = ({ card, index }: { card: MissionCard; index: number }) => {
         </motion.div>
 
         {/* Title */}
-        <h3 className="text-xl md:text-2xl font-bold text-navy mb-4">
+        <h3 className="text-xl md:text-2xl font-bold text-dark-blue mb-4">
           {card.title}
         </h3>
 
