@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { LinkedIn, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react'
+import { Linkedin, Instagram, Twitter, Mail, Phone, MapPin } from 'lucide-react'
 
 interface FormData {
   name: string
