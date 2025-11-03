@@ -101,7 +101,7 @@ const MediaCard = ({ item, index }: { item: MediaItem; index: number }) => {
         </h4>
 
         {/* Article title */}
-        <h3 className="text-lg font-bold text-navy mb-3">
+        <h3 className="text-lg font-bold text-dark-blue mb-3">
           {item.title}
         </h3>
 
@@ -118,7 +118,7 @@ const MediaCard = ({ item, index }: { item: MediaItem; index: number }) => {
         </div>
 
         {/* Read more link */}
-        <div className="text-navy font-medium hover:text-navy/80 transition-colors text-sm">
+        <div className="text-leaf-green font-medium hover:text-dark-blue transition-colors text-sm">
           {isExpanded ? 'Show Less' : 'Read More →'}
         </div>
       </div>
@@ -131,7 +131,7 @@ const MediaMentions = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section className="py-20 md:py-32 bg-peach" ref={ref}>
+    <section className="py-20 md:py-32 bg-white" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -139,7 +139,7 @@ const MediaMentions = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-dark-blue mb-6">
             In the Press
           </h2>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">

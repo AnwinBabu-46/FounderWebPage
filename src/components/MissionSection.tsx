@@ -75,7 +75,7 @@ const MissionCard = ({ card, index }: { card: MissionCard; index: number }) => {
         </motion.div>
 
         {/* Title */}
-        <h3 className="text-xl md:text-2xl font-bold text-navy mb-4">
+        <h3 className="text-xl md:text-2xl font-bold text-dark-blue mb-4">
           {card.title}
         </h3>
 
@@ -93,7 +93,7 @@ const MissionSection = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section className="py-20 md:py-32 bg-peach" ref={ref}>
+    <section className="py-20 md:py-32 bg-white" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -101,7 +101,7 @@ const MissionSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-dark-blue mb-6">
             The Mission — Purpose with Freshness
           </h2>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">

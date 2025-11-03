@@ -82,7 +82,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
   return (
     <div className="relative flex items-center mb-16 md:mb-20">
       {/* Arrow indicator */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 text-3xl text-navy z-20">
+      <div className="absolute left-1/2 transform -translate-x-1/2 text-3xl text-leaf-green z-20">
         {arrowDirection}
       </div>
 
@@ -97,7 +97,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
         <div className="timeline-card relative">
           {/* Number indicator */}
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 md:left-auto md:right-4 md:top-4 md:transform-none">
-            <div className="w-8 h-8 bg-navy text-white rounded-full flex items-center justify-center font-bold text-sm">
+            <div className="w-8 h-8 bg-dark-blue text-white rounded-full flex items-center justify-center font-bold text-sm">
               {item.id}
             </div>
           </div>
@@ -106,7 +106,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
           <div className="text-4xl mb-4 md:mb-6">{item.icon}</div>
 
           {/* Content */}
-          <h3 className="text-xl md:text-2xl font-bold text-navy mb-3">
+          <h3 className="text-xl md:text-2xl font-bold text-dark-blue mb-3">
             {item.title}
           </h3>
           <p className="text-gray-700 leading-relaxed">
@@ -116,7 +116,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
       </motion.div>
 
       {/* Center dot for desktop */}
-      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-navy rounded-full z-30"></div>
+      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-leaf-green rounded-full z-30"></div>
     </div>
   )
 }
@@ -134,7 +134,7 @@ const Timeline = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-dark-blue mb-6">
             Founder's Journey
           </h2>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
@@ -144,7 +144,7 @@ const Timeline = () => {
 
         <div className="relative">
           {/* Vertical line for desktop */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-navy/30"></div>
+          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-leaf-green/30"></div>
 
           {/* Timeline items */}
           <div className="space-y-0">

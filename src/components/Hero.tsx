@@ -15,7 +15,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1 className="text-5xl md:text-7xl font-bold text-navy mb-6">
+          <h1 className="text-5xl md:text-7xl font-bold text-dark-blue mb-6">
             Jamanudeen P
           </h1>
         </motion.div>
@@ -25,7 +25,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h2 className="text-2xl md:text-3xl font-semibold text-navy mb-8">
+          <h2 className="text-2xl md:text-3xl font-semibold text-dark-blue mb-8">
             Founder, My Azli Fresh
           </h2>
         </motion.div>
@@ -36,7 +36,7 @@ const Hero = () => {
           transition={{ duration: 1.2, delay: 0.4 }}
           className="overflow-hidden"
         >
-          <h3 className="text-xl md:text-2xl font-medium text-navy mb-6 leading-relaxed">
+          <h3 className="text-xl md:text-2xl font-medium text-dark-blue mb-6 leading-relaxed">
             Transforming how fresh, chemical-free food reaches Indian families
           </h3>
         </motion.div>
@@ -62,7 +62,7 @@ const Hero = () => {
         >
           <ChevronDown
             size={32}
-            className="text-navy cursor-pointer hover:text-navy/80 transition-colors"
+            className="text-leaf-green cursor-pointer hover:text-dark-blue transition-colors"
           />
         </motion.button>
       </div>

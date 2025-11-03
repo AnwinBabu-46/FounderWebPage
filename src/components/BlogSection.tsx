@@ -78,13 +78,13 @@ const BlogCard = ({ post, index }: { post: BlogPost; index: number }) => {
         <div className="card h-full cursor-pointer group">
           {/* Category badge */}
           <div className="mb-4">
-            <span className="inline-block px-3 py-1 bg-peach text-navy text-sm font-medium rounded-full">
+            <span className="inline-block px-3 py-1 bg-leaf-green/10 text-leaf-green text-sm font-medium rounded-full border border-leaf-green/20">
               {post.category}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-xl md:text-2xl font-bold text-navy mb-3 group-hover:text-navy/80 transition-colors">
+          <h3 className="text-xl md:text-2xl font-bold text-dark-blue mb-3 group-hover:text-leaf-green transition-colors">
             {post.title}
           </h3>
 
@@ -100,7 +100,7 @@ const BlogCard = ({ post, index }: { post: BlogPost; index: number }) => {
           </div>
 
           {/* Read more link */}
-          <div className="mt-4 text-navy font-medium group-hover:text-navy/80 transition-colors">
+          <div className="mt-4 text-leaf-green font-medium group-hover:text-dark-blue transition-colors">
             Read More →
           </div>
         </div>
@@ -122,7 +122,7 @@ const BlogSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-dark-blue mb-6">
             Reflections & Insights
           </h2>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">

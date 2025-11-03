@@ -113,7 +113,7 @@ const BlogPost = () => {
   if (!post) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-navy"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-leaf-green"></div>
       </div>
     )
   }
@@ -146,7 +146,7 @@ const BlogPost = () => {
           <nav className="mb-8">
             <Link
               href="/#blog"
-              className="inline-flex items-center text-navy hover:text-navy/80 transition-colors"
+              className="inline-flex items-center text-dark-blue hover:text-dark-blue/80 transition-colors"
             >
               <ArrowLeft size={20} className="mr-2" />
               Back to Blog
@@ -156,12 +156,12 @@ const BlogPost = () => {
           {/* Article Header */}
           <header className="mb-12">
             <div className="mb-6">
-              <span className="inline-block px-3 py-1 bg-peach text-navy text-sm font-medium rounded-full">
+              <span className="inline-block px-3 py-1 bg-leaf-green/10 text-dark-blue text-sm font-medium rounded-full">
                 {post.category}
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold text-navy mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-dark-blue mb-6 leading-tight">
               {post.title}
             </h1>
 
@@ -179,7 +179,7 @@ const BlogPost = () => {
 
               <button
                 onClick={handleShare}
-                className="flex items-center text-navy hover:text-navy/80 transition-colors"
+                className="flex items-center text-dark-blue hover:text-dark-blue/80 transition-colors"
                 aria-label="Share article"
               >
                 <Share2 size={20} />
@@ -196,7 +196,7 @@ const BlogPost = () => {
           {/* Article Footer */}
           <footer className="mt-16 pt-8 border-t border-gray-200">
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-navy mb-4">
+              <h3 className="text-2xl font-bold text-dark-blue mb-4">
                 Enjoyed this article?
               </h3>
               <p className="text-gray-700 mb-6">
