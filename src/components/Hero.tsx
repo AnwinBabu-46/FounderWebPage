@@ -62,7 +62,7 @@ const Hero = () => {
         >
           <ChevronDown
             size={32}
-            className="text-navy cursor-pointer hover:text-navy/80 transition-colors"
+            className="text-leaf-green cursor-pointer hover:text-dark-blue transition-colors"
           />
         </motion.button>
       </div>
