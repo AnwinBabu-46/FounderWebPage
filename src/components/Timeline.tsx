@@ -97,7 +97,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
         <div className="timeline-card relative">
           {/* Number indicator */}
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 md:left-auto md:right-4 md:top-4 md:transform-none">
-            <div className="w-8 h-8 bg-navy text-white rounded-full flex items-center justify-center font-bold text-sm">
+            <div className="w-8 h-8 bg-dark-blue text-white rounded-full flex items-center justify-center font-bold text-sm">
               {item.id}
             </div>
           </div>
