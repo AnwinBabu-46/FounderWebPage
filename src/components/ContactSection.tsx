@@ -96,7 +96,7 @@ const ContactSection = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <div className="bg-peach p-8 rounded-lg border-2 border-navy">
+            <div className="bg-white p-8 rounded-lg border-2 border-dark-blue">
               <h3 className="text-2xl font-bold text-navy mb-6">
                 Send a Message
               </h3>
