@@ -100,7 +100,7 @@ const BlogCard = ({ post, index }: { post: BlogPost; index: number }) => {
           </div>
 
           {/* Read more link */}
-          <div className="mt-4 text-navy font-medium group-hover:text-navy/80 transition-colors">
+          <div className="mt-4 text-leaf-green font-medium group-hover:text-dark-blue transition-colors">
             Read More →
           </div>
         </div>
