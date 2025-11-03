@@ -8,8 +8,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'peach': '#FFE5B4',
-        'navy': '#002B5B',
+        'dark-blue': '#0A2E63',
+        'leaf-green': '#4CAF50',
         'white': '#FFFFFF',
       },
       fontFamily: {
