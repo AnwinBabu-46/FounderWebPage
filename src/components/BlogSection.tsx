@@ -122,7 +122,7 @@ const BlogSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-dark-blue mb-6">
             Reflections & Insights
           </h2>
           <p className="text-lg text-gray-700 max-w-3xl mx-auto">
