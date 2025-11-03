@@ -269,7 +269,7 @@ const ContactSection = () => {
             </div>
 
             {/* Call to action */}
-            <div className="bg-peach p-6 rounded-lg border-2 border-dark-blue">
+            <div className="bg-white p-6 rounded-lg border-2 border-dark-blue">
               <h4 className="text-lg font-bold text-dark-blue mb-2">
                 Partnership Inquiries
               </h4>
