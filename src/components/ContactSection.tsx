@@ -126,7 +126,7 @@ const ContactSection = () => {
                         message: 'Name must be at least 2 characters'
                       }
                     })}
-                    className="w-full px-4 py-3 border-2 border-navy rounded-lg focus:outline-none focus:border-navy/70 bg-white"
+                    className="w-full px-4 py-3 border-2 border-dark-blue rounded-lg focus:outline-none focus:border-dark-blue/70 bg-white"
                     placeholder="Your name"
                   />
                   {errors.name && (
@@ -149,7 +149,7 @@ const ContactSection = () => {
                         message: 'Invalid email address'
                       }
                     })}
-                    className="w-full px-4 py-3 border-2 border-navy rounded-lg focus:outline-none focus:border-navy/70 bg-white"
+                    className="w-full px-4 py-3 border-2 border-dark-blue rounded-lg focus:outline-none focus:border-dark-blue/70 bg-white"
                     placeholder="your@email.com"
                   />
                   {errors.email && (
@@ -172,7 +172,7 @@ const ContactSection = () => {
                         message: 'Message must be at least 10 characters'
                       }
                     })}
-                    className="w-full px-4 py-3 border-2 border-navy rounded-lg focus:outline-none focus:border-navy/70 bg-white resize-none"
+                    className="w-full px-4 py-3 border-2 border-dark-blue rounded-lg focus:outline-none focus:border-dark-blue/70 bg-white resize-none"
                     placeholder="Your message..."
                   />
                   {errors.message && (
@@ -269,7 +269,7 @@ const ContactSection = () => {
             </div>
 
             {/* Call to action */}
-            <div className="bg-peach p-6 rounded-lg border-2 border-navy">
+            <div className="bg-peach p-6 rounded-lg border-2 border-dark-blue">
               <h4 className="text-lg font-bold text-dark-blue mb-2">
                 Partnership Inquiries
               </h4>
