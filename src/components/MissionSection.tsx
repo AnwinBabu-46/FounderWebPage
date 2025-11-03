@@ -93,7 +93,7 @@ const MissionSection = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section className="py-20 md:py-32 bg-peach" ref={ref}>
+    <section className="py-20 md:py-32 bg-white" ref={ref}>
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
