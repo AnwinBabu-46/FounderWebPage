@@ -25,7 +25,7 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h2 className="text-2xl md:text-3xl font-semibold text-navy mb-8">
+          <h2 className="text-2xl md:text-3xl font-semibold text-dark-blue mb-8">
             Founder, My Azli Fresh
           </h2>
         </motion.div>
