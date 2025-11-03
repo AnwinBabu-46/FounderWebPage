@@ -97,7 +97,7 @@ const ContactSection = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="bg-white p-8 rounded-lg border-2 border-dark-blue">
-              <h3 className="text-2xl font-bold text-navy mb-6">
+              <h3 className="text-2xl font-bold text-dark-blue mb-6">
                 Send a Message
               </h3>
 
@@ -113,7 +113,7 @@ const ContactSection = () => {
 
                 {/* Name field */}
                 <div>
-                  <label htmlFor="name" className="block text-navy font-medium mb-2">
+                  <label htmlFor="name" className="block text-dark-blue font-medium mb-2">
                     Name *
                   </label>
                   <input
@@ -136,7 +136,7 @@ const ContactSection = () => {
 
                 {/* Email field */}
                 <div>
-                  <label htmlFor="email" className="block text-navy font-medium mb-2">
+                  <label htmlFor="email" className="block text-dark-blue font-medium mb-2">
                     Email *
                   </label>
                   <input
@@ -159,7 +159,7 @@ const ContactSection = () => {
 
                 {/* Message field */}
                 <div>
-                  <label htmlFor="message" className="block text-navy font-medium mb-2">
+                  <label htmlFor="message" className="block text-dark-blue font-medium mb-2">
                     Message *
                   </label>
                   <textarea
@@ -223,21 +223,21 @@ const ContactSection = () => {
           >
             {/* Contact details */}
             <div>
-              <h3 className="text-2xl font-bold text-navy mb-6">
+              <h3 className="text-2xl font-bold text-dark-blue mb-6">
                 Get in Touch
               </h3>
 
               <div className="space-y-4">
                 <div className="flex items-center space-x-4">
-                  <Mail className="text-navy" size={20} />
+                  <Mail className="text-dark-blue" size={20} />
                   <span className="text-gray-700">contact@myazlifresh.com</span>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <Phone className="text-navy" size={20} />
+                  <Phone className="text-dark-blue" size={20} />
                   <span className="text-gray-700">+91 98765 43210</span>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <MapPin className="text-navy" size={20} />
+                  <MapPin className="text-dark-blue" size={20} />
                   <span className="text-gray-700">Mumbai, India</span>
                 </div>
               </div>
@@ -245,7 +245,7 @@ const ContactSection = () => {
 
             {/* Social links */}
             <div>
-              <h3 className="text-xl font-bold text-navy mb-4">
+              <h3 className="text-xl font-bold text-dark-blue mb-4">
                 Follow Our Journey
               </h3>
 
@@ -258,7 +258,7 @@ const ContactSection = () => {
                       href={social.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`text-navy transition-colors ${social.color}`}
+                      className={`text-dark-blue transition-colors ${social.color}`}
                       aria-label={social.name}
                     >
                       <Icon size={24} />
@@ -270,7 +270,7 @@ const ContactSection = () => {
 
             {/* Call to action */}
             <div className="bg-peach p-6 rounded-lg border-2 border-navy">
-              <h4 className="text-lg font-bold text-navy mb-2">
+              <h4 className="text-lg font-bold text-dark-blue mb-2">
                 Partnership Inquiries
               </h4>
               <p className="text-gray-700 mb-4">
