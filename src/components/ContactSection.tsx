@@ -14,7 +14,7 @@ interface FormData {
 const socialLinks = [
   {
     name: 'LinkedIn',
-    icon: LinkedIn,
+    icon: Linkedin,
     url: 'https://linkedin.com/in/jamanudeen-p',
     color: 'hover:text-blue-600'
   },
