@@ -21,7 +21,7 @@ export interface FormData {
 
 export interface SocialLink {
   name: string
-  icon: React.ComponentType<{ size?: number; className?: string }>
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement> & { size?: number | string }>
   url: string
   color: string
 }
