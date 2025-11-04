@@ -1,12 +1,11 @@
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import Head from 'next/head'
-import Link from 'next/link'
-import { ArrowLeft, Share2, Calendar, Clock } from 'lucide-react'
+import type { BlogPostFull, BlogPostSummary } from '../types'
 
-const blogPosts = {
+export const blogPostsData: Record<string, BlogPostFull> = {
   'how-my-azli-fresh-was-built-on-customer-pain-points': {
+    id: 1,
+    slug: 'how-my-azli-fresh-was-built-on-customer-pain-points',
     title: 'How My Azli Fresh Was Built on Customer Pain Points',
+    teaser: 'Understanding customer needs transformed our approach to fresh food delivery, leading to innovative solutions that truly matter.',
     date: 'October 15, 2024',
     readTime: '3 min read',
     category: 'Foundership',
@@ -33,7 +32,10 @@ const blogPosts = {
     `
   },
   'the-danger-of-perfectionism-in-startups': {
+    id: 2,
+    slug: 'the-danger-of-perfectionism-in-startups',
     title: 'The Danger of Perfectionism in Startups',
+    teaser: 'Perfection can be the enemy of progress. Learning when to launch imperfectly and iterate based on real feedback.',
     date: 'September 28, 2024',
     readTime: '2 min read',
     category: 'Business',
@@ -55,7 +57,10 @@ const blogPosts = {
     `
   },
   'sustainable-sourcing-more-than-a-buzzword': {
+    id: 3,
+    slug: 'sustainable-sourcing-more-than-a-buzzword',
     title: 'Sustainable Sourcing: More Than a Buzzword',
+    teaser: 'Building a supply chain that not only delivers quality but also supports local communities and environmental stewardship.',
     date: 'August 12, 2024',
     readTime: '4 min read',
     category: 'Sustainability',
@@ -98,132 +103,21 @@ const blogPosts = {
   }
 }
 
-const BlogPost = () => {
-  const router = useRouter()
-  const { slug } = router.query
+// Export summary data for listings
+export const blogPostsSummary: BlogPostSummary[] = Object.values(blogPostsData).map(post => ({
+  id: post.id,
+  slug: post.slug,
+  title: post.title,
+  teaser: post.teaser,
+  date: post.date,
+  readTime: post.readTime,
+  category: post.category
+}))
 
-  const post = slug && typeof slug === 'string' ? blogPosts[slug as keyof typeof blogPosts] : null
+// Export sorted by date (newest first)
+export const blogPostsSummarySorted = [...blogPostsSummary].sort((a, b) => {
+  const dateA = new Date(a.date)
+  const dateB = new Date(b.date)
+  return dateB.getTime() - dateA.getTime()
+})
 
-  useEffect(() => {
-    if (!slug || (typeof slug === 'string' && !blogPosts[slug as keyof typeof blogPosts])) {
-      router.push('/#blog')
-    }
-  }, [slug, router])
-
-  if (!post) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-navy"></div>
-      </div>
-    )
-  }
-
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: post.title,
-        text: `Read "${post.title}" by Jamanudeen P`,
-        url: window.location.href
-      })
-    } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href)
-      alert('Link copied to clipboard!')
-    }
-  }
-
-  return (
-    <>
-      <Head>
-        <title>{post.title} - Jamanudeen P</title>
-        <meta name="description" content={`Read "${post.title}" by Jamanudeen P, Founder of My Azli Fresh`} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-
-      <article className="min-h-screen bg-white">
-        <div className="container mx-auto px-6 py-12 max-w-4xl">
-          {/* Navigation */}
-          <nav className="mb-8">
-            <Link
-              href="/#blog"
-              className="inline-flex items-center text-navy hover:text-navy/80 transition-colors"
-            >
-              <ArrowLeft size={20} className="mr-2" />
-              Back to Blog
-            </Link>
-          </nav>
-
-          {/* Article Header */}
-          <header className="mb-12">
-            <div className="mb-6">
-              <span className="inline-block px-3 py-1 bg-peach text-navy text-sm font-medium rounded-full">
-                {post.category}
-              </span>
-            </div>
-
-            <h1 className="text-4xl md:text-5xl font-bold text-navy mb-6 leading-tight">
-              {post.title}
-            </h1>
-
-            <div className="flex items-center justify-between text-gray-600 mb-8">
-              <div className="flex items-center space-x-4">
-                <span className="flex items-center">
-                  <Calendar size={16} className="mr-2" />
-                  {post.date}
-                </span>
-                <span className="flex items-center">
-                  <Clock size={16} className="mr-2" />
-                  {post.readTime}
-                </span>
-              </div>
-
-              <button
-                onClick={handleShare}
-                className="flex items-center text-navy hover:text-navy/80 transition-colors"
-                aria-label="Share article"
-              >
-                <Share2 size={20} />
-              </button>
-            </div>
-          </header>
-
-          {/* Article Content */}
-          <div
-            className="prose prose-lg max-w-none prose-navy"
-            dangerouslySetInnerHTML={{ __html: post.content }}
-          />
-
-          {/* Article Footer */}
-          <footer className="mt-16 pt-8 border-t border-gray-200">
-            <div className="text-center">
-              <h3 className="text-2xl font-bold text-navy mb-4">
-                Enjoyed this article?
-              </h3>
-              <p className="text-gray-700 mb-6">
-                Connect with me on LinkedIn or follow My Azli Fresh for more insights on entrepreneurship and sustainable food systems.
-              </p>
-              <div className="flex justify-center space-x-6">
-                <a
-                  href="https://linkedin.com/in/jamanudeen-p"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary"
-                >
-                  Connect on LinkedIn
-                </a>
-                <Link
-                  href="/#contact"
-                  className="btn-primary"
-                >
-                  Get in Touch
-                </Link>
-              </div>
-            </div>
-          </footer>
-        </div>
-      </article>
-    </>
-  )
-}
-
-export default BlogPost

@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
@@ -16,7 +18,7 @@ const mediaData: MediaItem[] = [
   {
     id: 1,
     publication: 'LinkedIn',
-    logo: '💼',
+    logo: '',
     title: 'Building My Azli Fresh: A Founder\'s Journey',
     excerpt: 'Insights on entrepreneurship and the challenges of building a fresh food delivery startup from scratch.',
     url: '#',
@@ -25,7 +27,7 @@ const mediaData: MediaItem[] = [
   {
     id: 2,
     publication: 'Insider News Times',
-    logo: '📰',
+    logo: '',
     title: 'How One Founder is Revolutionizing Fresh Food Delivery in India',
     excerpt: 'Profile piece on My Azli Fresh\'s innovative approach to sourcing and delivering fresh seafood directly to consumers.',
     url: '#',
@@ -34,7 +36,7 @@ const mediaData: MediaItem[] = [
   {
     id: 3,
     publication: 'Fresh Food Weekly',
-    logo: '🥗',
+    logo: '',
     title: 'Sustainability in Fresh Food: Beyond the Buzzwords',
     excerpt: 'Industry analysis of sustainable sourcing practices and their impact on the fresh food supply chain.',
     url: '#',
@@ -43,7 +45,7 @@ const mediaData: MediaItem[] = [
   {
     id: 4,
     publication: 'Local Business Journal',
-    logo: '🏢',
+    logo: '',
     title: 'Community Impact: My Azli Fresh Creates Opportunities',
     excerpt: 'How the startup is empowering local workers and migrants through purpose-driven employment initiatives.',
     url: '#',
@@ -86,27 +88,27 @@ const MediaCard = ({ item, index }: { item: MediaItem; index: number }) => {
         y: -5,
         transition: { duration: 0.2 }
       }}
-      className="card h-full cursor-pointer"
+      className="card h-full cursor-pointer w-full"
       onClick={handleReadMore}
     >
       <div className="text-center">
         {/* Logo */}
-        <div className="text-4xl mb-4">
+        <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">
           {item.logo}
         </div>
 
         {/* Publication name */}
-        <h4 className="text-sm font-medium text-gray-600 mb-2">
+        <h4 className="text-xs sm:text-sm font-medium text-gray-600 mb-2">
           {item.publication}
         </h4>
 
         {/* Article title */}
-        <h3 className="text-lg font-bold text-navy mb-3">
+        <h3 className="text-base sm:text-lg font-bold text-dark-blue mb-2 sm:mb-3 line-clamp-2">
           {item.title}
         </h3>
 
         {/* Date */}
-        <p className="text-sm text-gray-500 mb-4">
+        <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
           {item.date}
         </p>
 
@@ -118,7 +120,7 @@ const MediaCard = ({ item, index }: { item: MediaItem; index: number }) => {
         </div>
 
         {/* Read more link */}
-        <div className="text-navy font-medium hover:text-navy/80 transition-colors text-sm">
+        <div className="text-leaf-green font-medium hover:text-dark-blue transition-colors text-sm">
           {isExpanded ? 'Show Less' : 'Read More →'}
         </div>
       </div>
@@ -131,24 +133,24 @@ const MediaMentions = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section className="py-20 md:py-32 bg-peach" ref={ref}>
-      <div className="container mx-auto px-6">
+    <section className="py-12 sm:py-16 md:py-20 lg:py-32 bg-white" ref={ref}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16 md:mb-24"
+          className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark-blue mb-4 sm:mb-6">
             In the Press
           </h2>
-          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-2">
             Media coverage and stories about our journey, impact, and vision for the future
           </p>
         </motion.div>
 
         {/* Media Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {mediaData.map((item, index) => (
             <MediaCard key={item.id} item={item} index={index} />
           ))}
@@ -159,3 +161,4 @@ const MediaMentions = () => {
 }
 
 export default MediaMentions
+

@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useState } from 'react'
 
 const ScrollProgress = () => {
@@ -31,3 +33,4 @@ const ScrollProgress = () => {
 }
 
 export default ScrollProgress
+
