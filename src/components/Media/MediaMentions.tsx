@@ -98,29 +98,29 @@ const MediaCard = ({ item, index }: { item: MediaItem; index: number }) => {
         </div>
 
         {/* Publication name */}
-        <h4 className="text-xs sm:text-sm font-medium text-gray-600 mb-2">
+        <h4 className="text-xs sm:text-sm font-medium text-body-text mb-2">
           {item.publication}
         </h4>
 
         {/* Article title */}
-        <h3 className="text-base sm:text-lg font-bold text-dark-blue mb-2 sm:mb-3 line-clamp-2">
+        <h3 className="text-base sm:text-lg font-bold text-heading-text mb-2 sm:mb-3 line-clamp-2">
           {item.title}
         </h3>
 
         {/* Date */}
-        <p className="text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
+        <p className="text-xs sm:text-sm text-body-text/80 mb-3 sm:mb-4">
           {item.date}
         </p>
 
         {/* Excerpt (expandable) */}
         <div className={`overflow-hidden transition-all duration-300 ${isExpanded ? 'max-h-32' : 'max-h-0'}`}>
-          <p className="text-sm text-gray-700 leading-relaxed">
+          <p className="text-sm text-body-text leading-relaxed">
             {item.excerpt}
           </p>
         </div>
 
         {/* Read more link */}
-        <div className="text-leaf-green font-medium hover:text-dark-blue transition-colors text-sm">
+        <div className="text-link-hover font-medium hover:text-primary-new transition-colors text-sm">
           {isExpanded ? 'Show Less' : 'Read More →'}
         </div>
       </div>
@@ -141,10 +141,10 @@ const MediaMentions = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark-blue mb-4 sm:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading-text mb-4 sm:mb-6">
             In the Press
           </h2>
-          <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-2">
+          <p className="text-base sm:text-lg text-body-text max-w-3xl mx-auto px-2">
             Media coverage and stories about our journey, impact, and vision for the future
           </p>
         </motion.div>

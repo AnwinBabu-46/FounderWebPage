@@ -52,29 +52,29 @@ const BlogCard = ({ post, index }: BlogCardProps) => {
         <div className="card h-full cursor-pointer group w-full">
           {/* Category badge */}
           <div className="mb-3 sm:mb-4">
-            <span className="inline-block px-2.5 sm:px-3 py-1 bg-leaf-green/10 text-leaf-green text-xs sm:text-sm font-medium rounded-full border border-leaf-green/20">
+            <span className="inline-block px-2.5 sm:px-3 py-1 bg-secondary-new/10 text-primary-new text-xs sm:text-sm font-medium rounded-full border border-secondary-new/20">
               {post.category}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-dark-blue mb-2 sm:mb-3 group-hover:text-leaf-green transition-colors line-clamp-2">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-heading-text mb-2 sm:mb-3 group-hover:text-link-hover transition-colors line-clamp-2">
             {post.title}
           </h3>
 
           {/* Teaser */}
-          <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed flex-grow line-clamp-3">
+          <p className="text-sm sm:text-base text-body-text mb-3 sm:mb-4 leading-relaxed flex-grow line-clamp-3">
             {post.teaser}
           </p>
 
           {/* Date and read time */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm text-gray-600">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm text-body-text/70">
             <span>{post.date}</span>
             <span>{post.readTime}</span>
           </div>
 
           {/* Read more link */}
-          <div className="mt-3 sm:mt-4 text-leaf-green font-medium group-hover:text-dark-blue transition-colors text-sm sm:text-base">
+          <div className="mt-3 sm:mt-4 text-link-hover font-medium group-hover:text-primary-new transition-colors text-sm sm:text-base">
             Read More →
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function BlogIndexClient() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-gray-600">No blog posts available.</p>
+          <p className="text-body-text">No blog posts available.</p>
         </div>
       </div>
     )
@@ -126,7 +126,7 @@ export default function BlogIndexClient() {
 
   return (
     <>
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-neutral-white border-t-4 border-blog-accent">
         <section className="py-12 sm:py-16 md:py-20 lg:py-32" ref={ref}>
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
@@ -136,10 +136,10 @@ export default function BlogIndexClient() {
               transition={{ duration: 0.8 }}
               className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
             >
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark-blue mb-4 sm:mb-6">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading-text mb-4 sm:mb-6">
                 Reflections & Insights
               </h1>
-              <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-2">
+              <p className="text-base sm:text-lg text-body-text max-w-3xl mx-auto px-2">
                 Thoughts on entrepreneurship, sustainability, and building a business that truly serves people
               </p>
             </motion.div>
@@ -167,7 +167,7 @@ export default function BlogIndexClient() {
                     className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${
                       currentPage === 1
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-dark-blue text-white hover:bg-dark-blue/90 hover:scale-105 active:scale-95'
+                        : 'bg-accent-cta text-white hover:bg-opacity-90 hover:scale-105 active:scale-95'
                     }`}
                     aria-label="Previous page"
                   >
@@ -201,8 +201,8 @@ export default function BlogIndexClient() {
                           onClick={() => handlePageClick(page)}
                           className={`px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg font-medium transition-all duration-200 ${
                             currentPage === page
-                              ? 'bg-leaf-green text-white'
-                              : 'bg-white text-dark-blue border-2 border-dark-blue hover:bg-leaf-green hover:text-white hover:border-leaf-green'
+                              ? 'bg-accent-cta text-white'
+                              : 'bg-card-bg text-heading-text border-2 border-primary-new hover:bg-accent-cta hover:text-white hover:border-accent-cta'
                           }`}
                           aria-label={`Go to page ${page}`}
                           aria-current={currentPage === page ? 'page' : undefined}
@@ -220,7 +220,7 @@ export default function BlogIndexClient() {
                     className={`px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium transition-all duration-200 ${
                       currentPage === totalPages
                         ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                        : 'bg-dark-blue text-white hover:bg-dark-blue/90 hover:scale-105 active:scale-95'
+                        : 'bg-accent-cta text-white hover:bg-opacity-90 hover:scale-105 active:scale-95'
                     }`}
                     aria-label="Next page"
                   >
@@ -229,7 +229,7 @@ export default function BlogIndexClient() {
                 </div>
 
                 {/* Page Info */}
-                <p className="text-xs sm:text-sm text-gray-600 text-center px-4">
+                <p className="text-xs sm:text-sm text-body-text/70 text-center px-4">
                   Showing {startIndex + 1}-{Math.min(endIndex, totalPosts)} of {totalPosts} posts
                 </p>
               </motion.div>
@@ -244,7 +244,7 @@ export default function BlogIndexClient() {
             >
               <Link
                 href="/"
-                className="inline-flex items-center text-sm sm:text-base text-dark-blue hover:text-leaf-green transition-colors font-medium"
+                className="inline-flex items-center text-sm sm:text-base text-heading-text hover:text-link-hover transition-colors font-medium"
               >
                 <ChevronLeft size={18} className="sm:w-5 sm:h-5 mr-2" />
                 Back to Home

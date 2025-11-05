@@ -42,29 +42,29 @@ const BlogCard = ({ post, index }: { post: BlogPostSummary; index: number }) => 
         <div className="card h-full cursor-pointer group w-full">
           {/* Category badge */}
           <div className="mb-3 sm:mb-4">
-            <span className="inline-block px-2.5 sm:px-3 py-1 bg-leaf-green/10 text-leaf-green text-xs sm:text-sm font-medium rounded-full border border-leaf-green/20">
+            <span className="inline-block px-2.5 sm:px-3 py-1 bg-secondary-new/10 text-primary-new text-xs sm:text-sm font-medium rounded-full border border-secondary-new/20">
               {post.category}
             </span>
           </div>
 
           {/* Title */}
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-dark-blue mb-2 sm:mb-3 group-hover:text-leaf-green transition-colors line-clamp-2">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-heading-text mb-2 sm:mb-3 group-hover:text-link-hover transition-colors line-clamp-2">
             {post.title}
           </h3>
 
           {/* Teaser */}
-          <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed flex-grow line-clamp-3">
+          <p className="text-sm sm:text-base text-body-text mb-3 sm:mb-4 leading-relaxed flex-grow line-clamp-3">
             {post.teaser}
           </p>
 
           {/* Date and read time */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm text-gray-600">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm text-body-text/70">
             <span>{post.date}</span>
             <span>{post.readTime}</span>
           </div>
 
           {/* Read more link */}
-          <div className="mt-3 sm:mt-4 text-leaf-green font-medium group-hover:text-dark-blue transition-colors text-sm sm:text-base">
+          <div className="mt-3 sm:mt-4 text-link-hover font-medium group-hover:text-primary-new transition-colors text-sm sm:text-base">
             Read More →
           </div>
         </div>
@@ -78,7 +78,7 @@ const BlogSection = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 lg:py-32 bg-white" ref={ref}>
+    <section id="blog" className="py-12 sm:py-16 md:py-20 lg:py-32 bg-white" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -86,10 +86,10 @@ const BlogSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark-blue mb-4 sm:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading-text mb-4 sm:mb-6">
             Reflections & Insights
           </h2>
-          <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-2">
+          <p className="text-base sm:text-lg text-body-text max-w-3xl mx-auto px-2">
             Thoughts on entrepreneurship, sustainability, and building a business that truly serves people
           </p>
         </motion.div>
@@ -102,16 +102,23 @@ const BlogSection = () => {
         </div>
 
         {/* View all posts button */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
+        <div
           className="text-center mt-8 sm:mt-12"
+          style={{ pointerEvents: 'auto', zIndex: 50, position: 'relative' }}
         >
-          <Link href="/blog" className="btn-primary inline-block">
+          <Link 
+            href="/blog" 
+            className="btn-primary inline-block"
+            style={{ 
+              pointerEvents: 'auto', 
+              zIndex: 51,
+              position: 'relative',
+              cursor: 'pointer'
+            }}
+          >
             View All Posts
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef } from 'react'
 
@@ -79,12 +79,15 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
     }
   }
 
-  const arrowDirection = item.position === 'left' ? '↘' : '↙'
+  const arrowDirection = item.position === 'left' ? '←' : '→'
 
   return (
     <div className="relative flex items-center md:justify-center">
       {/* Arrow indicator - hidden on mobile, shown on desktop */}
-      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 text-3xl text-leaf-green z-20">
+      <div 
+        className="hidden md:block absolute left-1/2 transform -translate-x-1/2 text-3xl z-20 transition-colors duration-200 hover:text-[#03D6C4]"
+        style={{ color: '#0A1F44' }}
+      >
         {arrowDirection}
       </div>
 
@@ -101,7 +104,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
           <div className={`absolute -top-4 left-1/2 transform -translate-x-1/2 md:left-auto md:top-4 md:transform-none z-10 ${
             item.position === 'left' ? 'md:right-4' : 'md:left-4'
           }`}>
-            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-dark-blue text-white rounded-full flex items-center justify-center font-bold text-xs sm:text-sm">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-primary-new text-white rounded-full flex items-center justify-center font-bold text-xs sm:text-sm">
               {item.id}
             </div>
           </div>
@@ -110,17 +113,17 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
           <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 md:mb-6">{item.icon}</div>
 
           {/* Content */}
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-dark-blue mb-2 sm:mb-3">
+          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-heading-text mb-2 sm:mb-3">
             {item.title}
           </h3>
-          <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+          <p className="text-sm sm:text-base text-body-text leading-relaxed">
             {item.description}
           </p>
         </div>
       </motion.div>
 
       {/* Center dot for desktop */}
-      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-3 h-3 sm:w-4 sm:h-4 bg-leaf-green rounded-full z-30"></div>
+      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-3 h-3 sm:w-4 sm:h-4 rounded-full z-30" style={{ backgroundColor: '#0A1F44' }}></div>
     </div>
   )
 }
@@ -128,9 +131,18 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
 const Timeline = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const lineRef = useRef<HTMLDivElement>(null)
+  
+  // Scroll animation for timeline line
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  })
+  
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"])
 
   return (
-    <section id="timeline" className="py-12 sm:py-16 md:py-20 lg:py-32 bg-white" ref={ref}>
+    <section id="timeline" className="py-12 sm:py-16 md:py-20 lg:py-32 bg-page-about-bg" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -138,17 +150,27 @@ const Timeline = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark-blue mb-4 sm:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading-text mb-4 sm:mb-6">
             Founder's Journey
           </h2>
-          <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-2">
+          <p className="text-base sm:text-lg text-body-text max-w-3xl mx-auto px-2">
             A path shaped by experience, purpose, and the vision to bring quality fresh food to every Indian family
           </p>
         </motion.div>
 
         <div className="relative">
-          {/* Vertical line for desktop */}
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-leaf-green/30"></div>
+          {/* Vertical line for desktop with scroll animation */}
+          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full overflow-hidden" style={{ backgroundColor: '#0A1F44' }}>
+            <motion.div
+              ref={lineRef}
+              style={{
+                height: lineHeight,
+                backgroundColor: '#0A1F44',
+                width: '100%',
+                transformOrigin: 'top'
+              }}
+            />
+          </div>
 
           {/* Timeline items */}
           <div className="space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-20">

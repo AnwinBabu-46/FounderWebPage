@@ -32,13 +32,13 @@ export default function BlogPostClient({ slug }: BlogPostClientProps) {
   }
 
   return (
-    <article className="min-h-screen bg-white">
+    <article className="min-h-screen bg-neutral-white border-t-4 border-blog-accent">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-4xl">
         {/* Navigation */}
         <nav className="mb-6 sm:mb-8">
           <Link
             href="/blog"
-            className="inline-flex items-center text-sm sm:text-base text-dark-blue hover:text-dark-blue/80 transition-colors"
+            className="inline-flex items-center text-sm sm:text-base text-heading-text hover:text-link-hover transition-colors"
           >
             <ArrowLeft size={18} className="sm:w-5 sm:h-5 mr-2" />
             Back to Blog
@@ -48,16 +48,16 @@ export default function BlogPostClient({ slug }: BlogPostClientProps) {
         {/* Article Header */}
         <header className="mb-8 sm:mb-12">
           <div className="mb-4 sm:mb-6">
-            <span className="inline-block px-2.5 sm:px-3 py-1 bg-leaf-green/10 text-dark-blue text-xs sm:text-sm font-medium rounded-full">
+            <span className="inline-block px-2.5 sm:px-3 py-1 bg-secondary-new/10 text-primary-new text-xs sm:text-sm font-medium rounded-full">
               {post.category}
             </span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-dark-blue mb-4 sm:mb-6 leading-tight">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-heading-text mb-4 sm:mb-6 leading-tight">
             {post.title}
           </h1>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 sm:gap-0 text-sm sm:text-base text-body-text/70 mb-6 sm:mb-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:space-x-4">
               <span className="flex items-center">
                 <Calendar size={14} className="sm:w-4 sm:h-4 mr-1.5 sm:mr-2" />
@@ -71,7 +71,7 @@ export default function BlogPostClient({ slug }: BlogPostClientProps) {
 
             <button
               onClick={handleShare}
-              className="flex items-center text-dark-blue hover:text-dark-blue/80 transition-colors"
+              className="flex items-center text-heading-text hover:text-link-hover transition-colors"
               aria-label="Share article"
             >
               <Share2 size={18} className="sm:w-5 sm:h-5" />
@@ -81,17 +81,17 @@ export default function BlogPostClient({ slug }: BlogPostClientProps) {
 
         {/* Article Content */}
         <div
-          className="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-navy prose-headings:text-dark-blue prose-p:text-gray-700 prose-a:text-leaf-green prose-a:no-underline hover:prose-a:underline"
+          className="prose prose-sm sm:prose-base md:prose-lg max-w-none prose-navy prose-headings:text-heading-text prose-p:text-body-text prose-a:text-link-hover prose-a:no-underline hover:prose-a:underline"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
         {/* Article Footer */}
-        <footer className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-200">
+        <footer className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t-2 border-blog-accent">
           <div className="text-center">
-            <h3 className="text-xl sm:text-2xl font-bold text-dark-blue mb-3 sm:mb-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-heading-text mb-3 sm:mb-4">
               Enjoyed this article?
             </h3>
-            <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 px-2">
+            <p className="text-sm sm:text-base text-body-text mb-4 sm:mb-6 px-2">
               Connect with me on LinkedIn or follow My Azli Fresh for more insights on entrepreneurship and sustainable food systems.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 sm:space-x-6">

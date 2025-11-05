@@ -12,7 +12,7 @@ const socialLinks: SocialLink[] = [
     name: 'Email',
     icon: Mail,
     url: 'mailto:Jaman@myazlifresh.com',
-    color: 'hover:text-leaf-green'
+    color: 'hover:text-accent'
   },
   {
     name: 'LinkedIn',
@@ -69,18 +69,19 @@ const ContactSection = () => {
   }
 
   return (
-    <section id="contact" className="py-12 sm:py-16 md:py-20 lg:py-32 bg-white" ref={ref}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-12 sm:py-16 md:py-20 lg:py-32 relative" ref={ref}>
+      <div className="absolute inset-0 bg-gradient-to-r from-page-contact-bg-left to-page-contact-bg-right"></div>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-dark-blue mb-4 sm:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading-text mb-4 sm:mb-6">
             Let's Build Together
           </h2>
-          <p className="text-base sm:text-lg text-gray-700 max-w-3xl mx-auto px-2">
+          <p className="text-base sm:text-lg text-body-text max-w-3xl mx-auto px-2">
             Whether you're interested in partnership opportunities, want to learn more about our mission, or simply want to connect — we'd love to hear from you.
           </p>
         </motion.div>
@@ -94,8 +95,8 @@ const ContactSection = () => {
             className="relative z-0"
             style={{ isolation: 'isolate' }}
           >
-            <div className="bg-white p-6 sm:p-8 rounded-lg border-2 border-dark-blue" style={{ overflow: 'visible' }}>
-              <h3 className="text-xl sm:text-2xl font-bold text-dark-blue mb-4 sm:mb-6">
+            <div className="bg-card-bg p-6 sm:p-8 rounded-lg border-2 border-primary-new" style={{ overflow: 'visible' }}>
+              <h3 className="text-xl sm:text-2xl font-bold text-heading-text mb-4 sm:mb-6">
                 Send a Message
               </h3>
 
@@ -111,7 +112,7 @@ const ContactSection = () => {
 
                 {/* Name field */}
                 <div>
-                  <label htmlFor="name" className="block text-dark-blue font-medium mb-2 text-sm sm:text-base">
+                  <label htmlFor="name" className="block text-heading-text font-medium mb-2 text-sm sm:text-base">
                     Name *
                   </label>
                   <input
@@ -124,17 +125,17 @@ const ContactSection = () => {
                         message: 'Name must be at least 2 characters'
                       }
                     })}
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-dark-blue rounded-lg focus:outline-none focus:border-dark-blue/70 bg-white"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new rounded-lg focus:outline-none focus:border-secondary-new bg-card-bg"
                     placeholder="Your name"
                   />
                   {errors.name && (
-                    <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>
+                    <p className="text-error-alert text-sm mt-1">{errors.name.message}</p>
                   )}
                 </div>
 
                 {/* Email field */}
                 <div>
-                  <label htmlFor="email" className="block text-dark-blue font-medium mb-2 text-sm sm:text-base">
+                  <label htmlFor="email" className="block text-heading-text font-medium mb-2 text-sm sm:text-base">
                     Email *
                   </label>
                   <input
@@ -147,17 +148,17 @@ const ContactSection = () => {
                         message: 'Invalid email address'
                       }
                     })}
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-dark-blue rounded-lg focus:outline-none focus:border-dark-blue/70 bg-white"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new rounded-lg focus:outline-none focus:border-secondary-new bg-card-bg"
                     placeholder="your@email.com"
                   />
                   {errors.email && (
-                    <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
+                    <p className="text-error-alert text-sm mt-1">{errors.email.message}</p>
                   )}
                 </div>
 
                 {/* Message field */}
                 <div>
-                  <label htmlFor="message" className="block text-dark-blue font-medium mb-2 text-sm sm:text-base">
+                  <label htmlFor="message" className="block text-heading-text font-medium mb-2 text-sm sm:text-base">
                     Message *
                   </label>
                   <textarea
@@ -170,23 +171,37 @@ const ContactSection = () => {
                         message: 'Message must be at least 10 characters'
                       }
                     })}
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-dark-blue rounded-lg focus:outline-none focus:border-dark-blue/70 bg-white resize-none"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new rounded-lg focus:outline-none focus:border-secondary-new bg-card-bg resize-none"
                     placeholder="Your message..."
                   />
                   {errors.message && (
-                    <p className="text-red-600 text-sm mt-1">{errors.message.message}</p>
+                    <p className="text-error-alert text-sm mt-1">{errors.message.message}</p>
                   )}
                 </div>
 
                 {/* Submit button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                style={{
+                  backgroundColor: '#03D6C4',
+                  color: '#FFFFFF'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isSubmitting) {
+                    e.currentTarget.style.backgroundColor = '#02B6A5';
+                    e.currentTarget.style.color = '#FFFFFF';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#03D6C4';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+              >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-neutral-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
@@ -199,12 +214,12 @@ const ContactSection = () => {
 
                 {/* Status messages */}
                 {submitStatus === 'success' && (
-                  <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                  <div className="p-4 bg-secondary-new/10 border border-secondary-new/30 text-primary-new rounded-lg">
                     Thank you for your message! We'll get back to you soon.
                   </div>
                 )}
                 {submitStatus === 'error' && (
-                  <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                  <div className="p-4 bg-error-alert/10 border border-error-alert/30 text-error-alert rounded-lg">
                     Something went wrong. Please try again later.
                   </div>
                 )}
@@ -222,7 +237,7 @@ const ContactSection = () => {
           >
             {/* Contact details */}
             <div className="relative z-[9999]" style={{ position: 'relative', zIndex: 9999 }}>
-              <h3 className="text-xl sm:text-2xl font-bold text-dark-blue mb-4 sm:mb-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-heading-text mb-4 sm:mb-6">
                 Get in Touch
               </h3>
 
@@ -234,7 +249,7 @@ const ContactSection = () => {
                     e.stopPropagation()
                     window.location.href = 'mailto:Jaman@myazlifresh.com'
                   }}
-                  className="relative z-[9999] flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-leaf-green transition-colors break-words cursor-pointer"
+                  className="relative z-[9999] flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover transition-colors break-words cursor-pointer"
                   aria-label="Send email to Jaman@myazlifresh.com"
                   style={{ 
                     position: 'relative', 
@@ -244,24 +259,24 @@ const ContactSection = () => {
                     cursor: 'pointer'
                   }}
                 >
-                  <Mail className="text-dark-blue flex-shrink-0 mt-0.5 sm:mt-0 pointer-events-none" size={18} />
-                  <span className="text-sm sm:text-base text-gray-700 break-all pointer-events-none">Jaman@myazlifresh.com</span>
+                  <Mail className="text-primary-new flex-shrink-0 mt-0.5 sm:mt-0 pointer-events-none" size={18} />
+                  <span className="text-sm sm:text-base text-body-text break-all pointer-events-none">Jaman@myazlifresh.com</span>
                 </a>
                 <a 
                   href="https://g.co/kgs/h3mT45" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-leaf-green transition-colors cursor-pointer"
+                  className="flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover transition-colors cursor-pointer"
                 >
-                  <MapPin className="text-dark-blue flex-shrink-0 mt-0.5 sm:mt-0" size={18} />
-                  <span className="text-xs sm:text-sm text-gray-700 leading-relaxed">Shop No 6, Site No 2, Assessment No 3, Mahadevapura Village, KR Puram Hobli, B.B.M.P East, Bangalore North, Karnataka, India - 560048</span>
+                  <MapPin className="text-primary-new flex-shrink-0 mt-0.5 sm:mt-0" size={18} />
+                  <span className="text-xs sm:text-sm text-body-text leading-relaxed">Shop No 6, Site No 2, Assessment No 3, Mahadevapura Village, KR Puram Hobli, B.B.M.P East, Bangalore North, Karnataka, India - 560048</span>
                 </a>
               </div>
             </div>
 
             {/* Social links */}
             <div className="relative z-[9999]" style={{ position: 'relative', zIndex: 9999 }}>
-              <h3 className="text-lg sm:text-xl font-bold text-dark-blue mb-3 sm:mb-4">
+              <h3 className="text-lg sm:text-xl font-bold text-heading-text mb-3 sm:mb-4">
                 Follow Our Journey
               </h3>
 
@@ -283,7 +298,7 @@ const ContactSection = () => {
                       href={social.url}
                       onClick={handleClick}
                       {...(isEmail ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-                      className={`relative z-[9999] inline-flex items-center justify-center text-dark-blue transition-colors cursor-pointer p-2 min-w-[44px] min-h-[44px] ${social.color}`}
+                      className={`relative z-[9999] inline-flex items-center justify-center text-primary-new transition-colors cursor-pointer p-2 min-w-[44px] min-h-[44px] ${social.color}`}
                       aria-label={isEmail ? `Send email to ${social.url.replace('mailto:', '')}` : social.name}
                       style={{ 
                         position: 'relative', 
@@ -302,18 +317,32 @@ const ContactSection = () => {
             </div>
 
             {/* Call to action */}
-            <div className="bg-white p-5 sm:p-6 rounded-lg border-2 border-dark-blue">
-              <h4 className="text-base sm:text-lg font-bold text-dark-blue mb-2">
+            <div className="bg-card-bg p-5 sm:p-6 rounded-lg border-2 border-primary-new" style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}>
+              <h4 className="text-base sm:text-lg font-bold text-heading-text mb-2">
                 Partnership Inquiries
               </h4>
-              <p className="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4">
+              <p className="text-sm sm:text-base text-body-text mb-3 sm:mb-4">
                 Interested in partnering with My Azli Fresh? We're always looking for like-minded organizations to collaborate with.
               </p>
               <a 
                 href="https://myazlifresh.com/" 
-                target="_blank" 
+                target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary inline-block text-sm sm:text-base"
+                className="btn-primary inline-block text-sm sm:text-base no-underline"
+                style={{ 
+                  pointerEvents: 'auto', 
+                  zIndex: 10001,
+                  position: 'relative',
+                  cursor: 'pointer',
+                  display: 'inline-block',
+                  textDecoration: 'none',
+                  userSelect: 'none'
+                }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  window.open('https://myazlifresh.com/', '_blank', 'noopener,noreferrer')
+                }}
               >
                 Learn More
               </a>
