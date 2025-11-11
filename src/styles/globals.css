@@ -141,9 +141,9 @@
     background-clip: text;
   }
 
-  /* Hero Section Styles - Primary color (60%) */
+  /* Hero Section Styles - Blue to Aqua Gradient */
   .hero-gradient-bg {
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    background: linear-gradient(135deg, #00b8c4 0%, #00e5b7 50%, #aaffc6 100%);
     position: relative;
   }
 

@@ -79,7 +79,7 @@ const TimelineItem = ({ item, index }: { item: TimelineItem; index: number }) =>
     }
   }
 
-  const arrowDirection = item.position === 'left' ? '←' : '→'
+  const arrowDirection = item.position === 'left' ? '→' : '←'
 
   return (
     <div className="relative flex items-center md:justify-center">

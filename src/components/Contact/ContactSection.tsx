@@ -325,7 +325,7 @@ const ContactSection = () => {
                 Interested in partnering with My Azli Fresh? We're always looking for like-minded organizations to collaborate with.
               </p>
               <a 
-                href="https://myazlifresh.com/" 
+                href="https://myazlifresh.com" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary inline-block text-sm sm:text-base no-underline"
@@ -335,13 +335,7 @@ const ContactSection = () => {
                   position: 'relative',
                   cursor: 'pointer',
                   display: 'inline-block',
-                  textDecoration: 'none',
-                  userSelect: 'none'
-                }}
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  window.open('https://myazlifresh.com/', '_blank', 'noopener,noreferrer')
+                  textDecoration: 'none'
                 }}
               >
                 Learn More

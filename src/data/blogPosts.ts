@@ -34,7 +34,7 @@ export const blogPostsData: Record<string, BlogPostFull> = {
   'the-danger-of-perfectionism-in-startups': {
     id: 2,
     slug: 'the-danger-of-perfectionism-in-startups',
-    title: 'The Danger of Perfectionism in Startups',
+    title: 'The Danger of Perfectionism in Startups.',
     teaser: 'Perfection can be the enemy of progress. Learning when to launch imperfectly and iterate based on real feedback.',
     date: 'September 28, 2024',
     readTime: '2 min read',
