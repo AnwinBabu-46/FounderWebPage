@@ -1,42 +1,23 @@
-import type { Metadata } from 'next'
+'use client'
+
 import '../styles/globals.css'
 import { NavBarDemo } from '../components/ui/navbar-demo'
 import { AppThemeProvider } from '../components/theme-provider'
-
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://founder-webpage.vercel.app'),
-  title: 'Jamanudeen P - Founder, My Azli Fresh',
-  description: 'Transforming how fresh, chemical-free food reaches Indian families. From coastal roots to urban innovation — a journey redefining freshness and purpose.',
-  keywords: ['Jamanudeen P', 'My Azli Fresh', 'fresh food', 'seafood delivery', 'entrepreneurship', 'founder story', 'sustainable sourcing'],
-  authors: [{ name: 'Jamanudeen P' }],
-  openGraph: {
-    type: 'website',
-    title: 'Jamanudeen P - Founder, My Azli Fresh',
-    description: 'Transforming how fresh, chemical-free food reaches Indian families.',
-    images: ['/images/og-image.jpg'],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Jamanudeen P - Founder, My Azli Fresh',
-    description: 'Transforming how fresh, chemical-free food reaches Indian families.',
-    images: ['/images/og-image.jpg'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-}
+import { usePathname } from 'next/navigation'
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const pathname = usePathname()
+  const isBlogPage = pathname?.startsWith('/blog')
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-white text-[#0A0F1C] dark:bg-black dark:text-white transition-colors duration-300">
         <AppThemeProvider>
-        <NavBarDemo />
+        {!isBlogPage && <NavBarDemo />}
         {children}
         </AppThemeProvider>
       </body>
