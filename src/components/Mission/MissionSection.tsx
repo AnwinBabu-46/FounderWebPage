@@ -77,12 +77,12 @@ const MissionCard = ({ card, index }: { card: MissionCard; index: number }) => {
         </motion.div>
 
         {/* Title */}
-        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-heading-text mb-3 sm:mb-4">
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-3 sm:mb-4">
           {card.title}
         </h3>
 
         {/* Description */}
-        <p className="text-sm sm:text-base text-body-text leading-relaxed">
+        <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
           {card.description}
         </p>
       </div>
@@ -95,7 +95,7 @@ const MissionSection = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 lg:py-32 bg-page-about-bg" ref={ref}>
+    <section className="py-12 sm:py-16 md:py-20 lg:py-32 bg-[var(--page-bg)]" ref={ref}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -103,10 +103,10 @@ const MissionSection = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-heading-text mb-4 sm:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">
             The Mission — Purpose with Freshness
           </h2>
-          <p className="text-base sm:text-lg text-body-text max-w-3xl mx-auto px-2">
+          <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-3xl mx-auto px-2">
             Our commitment to delivering the highest quality fresh food while maintaining transparency and customer choice
           </p>
         </motion.div>

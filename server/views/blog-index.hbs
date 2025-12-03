@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <meta name="description" content="{{description}}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+             'primary-new': '#0D9488',
+             'secondary-new': '#14B8A6',
+             'heading-text': '#0F172A',
+             'body-text': '#334155',
+             'neutral-white': '#FFFFFF',
+             'blog-accent': '#F59E0B',
+             'accent-cta': '#F59E0B',
+             'link-hover': '#0EA5E9',
+             'card-bg': '#FFFFFF',
+             'footer-bg': '#0D9488',
+             'neutral-bg-light': '#F8FAFC'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .btn-primary {
+        @apply px-6 py-3 rounded-lg font-medium transition-all duration-200 active:scale-95 inline-block;
+        background-color: #03D6C4;
+        color: #FFFFFF;
+      }
+      .btn-primary:hover {
+        background-color: #02B6A5;
+        transform: scale(1.02);
+      }
+      .card {
+        @apply rounded-lg p-6 shadow-sm transition-all duration-200 hover:shadow-md bg-white border border-teal-500/20;
+      }
+      .card:hover {
+        @apply border-primary-new shadow-lg;
+      }
+      .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+    body {
+      @apply text-body-text bg-neutral-bg-light;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      @apply text-heading-text;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="bg-white/80 backdrop-blur-md border-b border-neutral-200 sticky top-0 z-50">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <a href="/" class="text-xl font-bold text-primary-new">Jamanudeen P</a>
+      <div class="hidden md:flex items-center space-x-8">
+         <a href="/" class="text-body-text hover:text-primary-new transition-colors">Home</a>
+         <a href="/#timeline" class="text-body-text hover:text-primary-new transition-colors">Journey</a>
+         <a href="/#mission" class="text-body-text hover:text-primary-new transition-colors">Mission</a>
+         <a href="/blog" class="text-primary-new font-medium">Blog</a>
+         <a href="/#contact" class="bg-[#03D6C4] text-white px-4 py-2 rounded-lg hover:bg-[#02B6A5] transition-colors">Contact</a>
+      </div>
+      <!-- Mobile Menu Button (Simple) -->
+      <div class="md:hidden">
+        <a href="/blog" class="text-primary-new font-medium">Blog</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="min-h-screen bg-neutral-white border-t-4 border-blog-accent">
+    <section class="py-12 sm:py-16 md:py-20 lg:py-32">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Header -->
+        <div class="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-heading-text mb-4 sm:mb-6">
+            Reflections & Insights
+          </h1>
+          <p class="text-base sm:text-lg text-body-text max-w-3xl mx-auto px-2">
+            Thoughts on entrepreneurship, sustainability, and building a business that truly serves people
+          </p>
+        </div>
+
+        <!-- Blog Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 lg:gap-12 mb-8 sm:mb-12">
+          {{#each posts}}
+          <div class="card h-full cursor-pointer group w-full relative">
+              <a href="/blog/{{this.slug}}" class="absolute inset-0 z-10"></a>
+              <!-- Category badge -->
+              <div class="mb-3 sm:mb-4 relative z-20">
+                <span class="inline-block px-2.5 sm:px-3 py-1 bg-secondary-new/10 text-primary-new text-xs sm:text-sm font-medium rounded-full border border-secondary-new/20">
+                  {{this.category}}
+                </span>
+              </div>
+
+              <!-- Title -->
+              <h3 class="text-lg sm:text-xl md:text-2xl font-bold text-heading-text mb-2 sm:mb-3 group-hover:text-link-hover transition-colors line-clamp-2">
+                {{this.title}}
+              </h3>
+
+              <!-- Teaser -->
+              <p class="text-sm sm:text-base text-body-text mb-3 sm:mb-4 leading-relaxed flex-grow line-clamp-3">
+                {{this.teaser}}
+              </p>
+
+              <!-- Date and read time -->
+              <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm text-body-text/70">
+                <span>{{this.date}}</span>
+                <span>{{this.readTime}}</span>
+              </div>
+
+              <!-- Read more link -->
+              <div class="mt-3 sm:mt-4 text-link-hover font-medium group-hover:text-primary-new transition-colors text-sm sm:text-base">
+                Read More →
+              </div>
+          </div>
+          {{/each}}
+        </div>
+
+        <!-- Pagination -->
+        {{#if pages}}
+        <div class="flex flex-col items-center justify-center space-y-3 sm:space-y-4">
+          <div class="flex flex-wrap items-center justify-center gap-2">
+            <!-- Previous Button -->
+            {{#if hasPrevious}}
+            <a href="{{previousUrl}}" class="px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium bg-accent-cta text-white hover:bg-opacity-90 transition-all duration-200">
+              Previous
+            </a>
+            {{else}}
+            <span class="px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium bg-gray-200 text-gray-400 cursor-not-allowed">
+              Previous
+            </span>
+            {{/if}}
+
+            <!-- Page Numbers -->
+            {{#each pages}}
+            <a href="{{this.url}}" class="px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg font-medium transition-all duration-200 {{#if this.isActive}}bg-accent-cta text-white{{else}}bg-white text-heading-text border-2 border-primary-new hover:bg-accent-cta hover:text-white hover:border-accent-cta{{/if}}">
+              {{this.number}}
+            </a>
+            {{/each}}
+
+            <!-- Next Button -->
+            {{#if hasNext}}
+            <a href="{{nextUrl}}" class="px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium bg-accent-cta text-white hover:bg-opacity-90 transition-all duration-200">
+              Next
+            </a>
+            {{else}}
+            <span class="px-3 sm:px-4 py-2 rounded-lg text-sm sm:text-base font-medium bg-gray-200 text-gray-400 cursor-not-allowed">
+              Next
+            </span>
+            {{/if}}
+          </div>
+        </div>
+        {{/if}}
+
+        <!-- Back to Home Link -->
+        <div class="text-center mt-8 sm:mt-12">
+          <a href="/" class="inline-flex items-center text-sm sm:text-base text-heading-text hover:text-link-hover transition-colors font-medium">
+            ← Back to Home
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-primary-new text-white py-8">
+    <div class="container mx-auto px-6">
+      <div class="text-center">
+        <p class="mb-2 hover:text-accent-cta cursor-default transition-colors">
+          © 2024 My Azli Fresh. All rights reserved.
+        </p>
+        <p class="text-sm opacity-80 hover:opacity-100 hover:text-accent-cta transition-colors">
+          Built with passion for fresh, sustainable food delivery.
+        </p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

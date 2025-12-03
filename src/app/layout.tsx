@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import '../styles/globals.css'
 import { NavBarDemo } from '../components/ui/navbar-demo'
+import { AppThemeProvider } from '../components/theme-provider'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://founder-webpage.vercel.app'),
@@ -32,10 +33,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen">
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-white text-[#0A0F1C] dark:bg-black dark:text-white transition-colors duration-300">
+        <AppThemeProvider>
         <NavBarDemo />
         {children}
+        </AppThemeProvider>
       </body>
     </html>
   )
