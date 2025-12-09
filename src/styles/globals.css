@@ -70,30 +70,68 @@
     --radius-md: 0.5rem;
   }
 
-  /* Optional Dark Mode Support */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --color-primary: #029C92;
-      --color-secondary: #8B03A8;
-      --color-accent: #BFA303;
-      --color-primary-dark: #017A72;
-      --color-secondary-dark: #6B0280;
-      --color-accent-dark: #9F8202;
-      --color-text-primary: #E8F5F4;
-      --color-text-secondary: #D4C8E0;
-      --background: 210 40% 8%;
-      --foreground: 0 0% 95%;
-    }
+  /* Dark Mode Variables - Only applied when .dark class is present */
+  .dark {
+    /* Hero and page backgrounds */
+    --hero-bg: radial-gradient(circle at 40% 60%, #7B00FF, #3C005F, #101014);
+    --page-bg: #101014;
+    --inner-dark-purple: #3C005F;
+    --inner-bright-purple: #7B00FF;
+    
+    /* Text colors */
+    --text-primary: #FFFFFF;
+    --text-secondary: #E0D4FF;
+    
+    /* Button colors */
+    --button-bg: #1C1C24;
+    --button-text: #FFFFFF;
+    
+    /* Highlight gradient */
+    --highlight-gradient: linear-gradient(135deg, #6A00FF, #B06BFF);
+    
+    /* Override existing variables for dark mode */
+    --color-primary: #029C92;
+    --color-secondary: #8B03A8;
+    --color-accent: #BFA303;
+    --color-primary-dark: #017A72;
+    --color-secondary-dark: #6B0280;
+    --color-accent-dark: #9F8202;
+    --color-text-primary: #FFFFFF;
+    --color-text-secondary: #E0D4FF;
+    --color-card-bg: #1C1C24;
+    --color-heading-text: #FFFFFF;
+    --color-body-text: #E0D4FF;
+    --color-page-about-bg: #101014;
+    --color-page-contact-bg-left: #3C005F;
+    --color-page-contact-bg-right: #101014;
+    --background: 210 40% 8%;
+    --foreground: 0 0% 95%;
+  }
+  
+  /* Light mode defaults (keep existing) */
+  :root {
+    --hero-bg: linear-gradient(to bottom right, #2CD3E1, #A0F0E8);
+    --page-bg: #FFFFFF;
+    --text-primary: #0A0F1C;
+    --text-secondary: #1F2937;
+    --button-bg: #ffffff;
+    --button-text: #0A0F1C;
+    --highlight-gradient: linear-gradient(90deg, #03D6C4, #5CF4A2);
   }
 
   html {
     scroll-behavior: smooth;
   }
 
+  /* Smooth transitions for theme switching */
+  * {
+    transition: background 0.6s ease, background-color 0.6s ease, color 0.4s ease, border-color 0.4s ease;
+  }
+
   body {
     font-family: 'Inter', sans-serif;
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    background-color: var(--page-bg);
+    color: var(--text-primary);
   }
 }
 
@@ -141,10 +179,24 @@
     background-clip: text;
   }
 
-  /* Hero Section Styles - Blue to Aqua Gradient */
+  /* Hero Section Styles - Uses CSS variable for theme switching */
   .hero-gradient-bg {
-    background: linear-gradient(135deg, #00b8c4 0%, #00e5b7 50%, #aaffc6 100%);
+    background: var(--hero-bg);
     position: relative;
+  }
+  
+  /* Hero swirl animation for dark mode */
+  @keyframes swirl {
+    0% {
+      background-position: 40% 60%;
+    }
+    100% {
+      background-position: 60% 40%;
+    }
+  }
+  
+  .dark .hero-gradient-bg {
+    animation: swirl 6s ease-in-out infinite alternate;
   }
 
   .hero-glow-ring {
