@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import '../styles/globals.css'
-import { ConditionalNavbar } from '../components/ConditionalNavbar'
-import { AppThemeProvider } from '../components/theme-provider'
+import { ConditionalNavbar } from '../components/Shared/ConditionalNavbar'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://founder-webpage.vercel.app'),
@@ -34,11 +33,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-white text-[#0A0F1C] dark:bg-black dark:text-white transition-colors duration-300">
-        <AppThemeProvider>
+      <body className="min-h-screen bg-white text-[#0A0F1C] transition-colors duration-300">
         <ConditionalNavbar />
         {children}
-        </AppThemeProvider>
       </body>
     </html>
   )

@@ -70,7 +70,7 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="py-12 sm:py-16 md:py-20 lg:py-32 relative" ref={ref}>
-      <div className="absolute inset-0 bg-gradient-to-r from-page-contact-bg-left to-page-contact-bg-right dark:bg-gradient-to-r dark:from-[#3C005F] dark:to-[#101014]"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-page-contact-bg-left to-page-contact-bg-right"></div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -79,10 +79,10 @@ const ContactSection = () => {
           className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">
-            Let's Build Together
+            Let&apos;s Build Together
           </h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-3xl mx-auto px-2">
-            Whether you're interested in partnership opportunities, want to learn more about our mission, or simply want to connect — we'd love to hear from you.
+            Whether you&apos;re interested in partnership opportunities, want to learn more about our mission, or simply want to connect — we&apos;d love to hear from you.
           </p>
         </motion.div>
 
@@ -95,7 +95,7 @@ const ContactSection = () => {
             className="relative z-0"
             style={{ isolation: 'isolate' }}
           >
-            <div className="bg-[var(--card-bg)] p-6 sm:p-8 rounded-lg border-2 border-primary-new dark:border-[#B06BFF]" style={{ overflow: 'visible' }}>
+            <div className="bg-[var(--card-bg)] p-6 sm:p-8 rounded-lg border-2 border-primary-new" style={{ overflow: 'visible' }}>
               <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">
                 Send a Message
               </h3>
@@ -125,7 +125,7 @@ const ContactSection = () => {
                         message: 'Name must be at least 2 characters'
                       }
                     })}
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new dark:border-[#B06BFF] rounded-lg focus:outline-none focus:border-secondary-new dark:focus:border-[#7B00FF] bg-[var(--card-bg)] text-[var(--text-primary)]" 
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new rounded-lg focus:outline-none focus:border-secondary-new bg-[var(--card-bg)] text-[var(--text-primary)]" 
                     placeholder="Your name"
                   />
                   {errors.name && (
@@ -148,7 +148,7 @@ const ContactSection = () => {
                         message: 'Invalid email address'
                       }
                     })}
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new dark:border-[#B06BFF] rounded-lg focus:outline-none focus:border-secondary-new dark:focus:border-[#7B00FF] bg-[var(--card-bg)] text-[var(--text-primary)]"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new rounded-lg focus:outline-none focus:border-secondary-new bg-[var(--card-bg)] text-[var(--text-primary)]"
                     placeholder="your@email.com"
                   />
                   {errors.email && (
@@ -171,7 +171,7 @@ const ContactSection = () => {
                         message: 'Message must be at least 10 characters'
                       }
                     })}
-                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new dark:border-[#B06BFF] rounded-lg focus:outline-none focus:border-secondary-new dark:focus:border-[#7B00FF] bg-[var(--card-bg)] text-[var(--text-primary)] resize-none"
+                    className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border-2 border-primary-new rounded-lg focus:outline-none focus:border-secondary-new bg-[var(--card-bg)] text-[var(--text-primary)] resize-none"
                     placeholder="Your message..."
                   />
                   {errors.message && (
@@ -183,7 +183,7 @@ const ContactSection = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-[#03D6C4] dark:bg-[var(--button-bg)] text-white dark:text-[var(--button-text)] dark:hover:shadow-[0_0_15px_rgba(176,107,255,0.6)]"
+                className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-[#03D6C4] text-white"
                 onMouseEnter={(e) => {
                   if (!isSubmitting && !document.documentElement.classList.contains('dark')) {
                     e.currentTarget.style.backgroundColor = '#02B6A5';
@@ -213,7 +213,7 @@ const ContactSection = () => {
                 {/* Status messages */}
                 {submitStatus === 'success' && (
                   <div className="p-4 bg-secondary-new/10 border border-secondary-new/30 text-primary-new rounded-lg">
-                    Thank you for your message! We'll get back to you soon.
+                    Thank you for your message! We&apos;ll get back to you soon.
                   </div>
                 )}
                 {submitStatus === 'error' && (
@@ -247,7 +247,7 @@ const ContactSection = () => {
                     e.stopPropagation()
                     window.location.href = 'mailto:Jaman@myazlifresh.com'
                   }}
-                  className="relative z-[9999] flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover dark:hover:text-[var(--text-primary)] transition-colors break-words cursor-pointer"
+                  className="relative z-[9999] flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover transition-colors break-words cursor-pointer"
                   aria-label="Send email to Jaman@myazlifresh.com"
                   style={{ 
                     position: 'relative', 
@@ -257,16 +257,16 @@ const ContactSection = () => {
                     cursor: 'pointer'
                   }}
                 >
-                  <Mail className="text-primary-new dark:text-[#B06BFF] flex-shrink-0 mt-0.5 sm:mt-0 pointer-events-none" size={18} />
+                  <Mail className="text-primary-new flex-shrink-0 mt-0.5 sm:mt-0 pointer-events-none" size={18} />
                   <span className="text-sm sm:text-base text-[var(--text-secondary)] break-all pointer-events-none">Jaman@myazlifresh.com</span>
                 </a>
                 <a 
                   href="https://g.co/kgs/h3mT45" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover dark:hover:text-[var(--text-primary)] transition-colors cursor-pointer"
+                  className="flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover transition-colors cursor-pointer"
                 >
-                  <MapPin className="text-primary-new dark:text-[#B06BFF] flex-shrink-0 mt-0.5 sm:mt-0" size={18} />
+                  <MapPin className="text-primary-new flex-shrink-0 mt-0.5 sm:mt-0" size={18} />
                   <span className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">Shop No 6, Site No 2, Assessment No 3, Mahadevapura Village, KR Puram Hobli, B.B.M.P East, Bangalore North, Karnataka, India - 560048</span>
                 </a>
               </div>
@@ -296,7 +296,7 @@ const ContactSection = () => {
                       href={social.url}
                       onClick={handleClick}
                       {...(isEmail ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-                      className={`relative z-[9999] inline-flex items-center justify-center text-primary-new dark:text-[#B06BFF] transition-colors cursor-pointer p-2 min-w-[44px] min-h-[44px] ${social.color}`}
+                      className={`relative z-[9999] inline-flex items-center justify-center text-primary-new transition-colors cursor-pointer p-2 min-w-[44px] min-h-[44px] ${social.color}`}
                       aria-label={isEmail ? `Send email to ${social.url.replace('mailto:', '')}` : social.name}
                       style={{ 
                         position: 'relative', 
@@ -315,12 +315,12 @@ const ContactSection = () => {
             </div>
 
             {/* Call to action */}
-            <div className="bg-[var(--card-bg)] p-5 sm:p-6 rounded-lg border-2 border-primary-new dark:border-[#B06BFF]" style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}>
+            <div className="bg-[var(--card-bg)] p-5 sm:p-6 rounded-lg border-2 border-primary-new" style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}>
               <h4 className="text-base sm:text-lg font-bold text-[var(--text-primary)] mb-2">
                 Partnership Inquiries
               </h4>
               <p className="text-sm sm:text-base text-[var(--text-secondary)] mb-3 sm:mb-4">
-                Interested in partnering with My Azli Fresh? We're always looking for like-minded organizations to collaborate with.
+                Interested in partnering with My Azli Fresh? We&apos;re always looking for like-minded organizations to collaborate with.
               </p>
               <a 
                 href="https://myazlifresh.com" 

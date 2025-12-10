@@ -100,6 +100,52 @@ export const blogPostsData: Record<string, BlogPostFull> = {
       
       <p>Sustainability isn't a destination — it's a journey of continuous improvement. And we're committed to walking this path, one transparent, ethical decision at a time.</p>
     `
+  },
+  'in-memory-of-our-family-doctor': {
+    id: 4,
+    slug: 'in-memory-of-our-family-doctor',
+    title: 'In Memory of Our Family Doctor: The Power of Belief and the Origins of My Azli Fresh',
+    teaser: 'How a family doctor\'s curiosity and belief helped shape the heart of My Azli Fresh.',
+    date: 'December 1, 2024',
+    readTime: '5 min read',
+    category: 'Foundership',
+    content: `
+      <p>Every business has an origin story. For some, it begins with a business plan and a spreadsheet. For us, before My Azli Fresh ever became a formal platform, it began with something far more personal: sharing the best of what we had with the people we cared about.</p>
+      
+      <p>In the world of commerce, we often measure success by sales charts and growth metrics. However, the true foundation of our brand was built on trust, relationships, and the simple joy of introducing our community to the finest seafood varieties—quality that was previously accessible only through our export background. Among the many milestones we have crossed, one specific memory anchors our journey. It involves our late family doctor, a moment of genuine connection, and a lesson about the kind of investment that matters most.</p>
+      
+      <h2>A Taste of the Unfamiliar</h2>
+      <p>The story takes me back to a family function we hosted some years ago. We decided to serve something special for the occasion: rare varieties of Grouper fish, known globally as Hamour. For our family, these varieties were not new. We had spent years exporting these high-demand, premium fish to markets in the GCC. We understood their value and their exquisite flavor profile. However, for our local village community, this was uncharted territory. At that time, these specific varieties were almost unknown in our immediate area. Serving them felt like more than just providing a meal; it felt like introducing our neighbors and friends to a completely new taste of the sea.</p>
+      
+      <h2>Curiosity and Connection</h2>
+      <p>It was during this function that our family doctor approached me. He wasn't just satisfied with the meal; he was genuinely fascinated by it. I remember him coming up to me, his voice full of excitement, asking, "Where do you get these kinds of fish?" It was a simple question, but it sparked a lasting tradition. We happened to have a few uncooked pieces left over from the preparation, which we happily packed for him to take home to his own kitchen. From that day forward, a pattern emerged. Whenever a special occasion arose in his family, he would reach out to us with the same specific request: "Do you have those Hamour varieties again?"</p>
+      
+      <h2>The Legacy of Belief</h2>
+      <p>Our family doctor is no longer with us today. Yet, his presence remains woven into the fabric of our work. Every time we prepare premium fish with care, I am reminded of his initial curiosity, his vocal appreciation, and the quiet blessings he bestowed upon us. His support taught us a vital lesson that continues to guide My Azli Fresh. In the early stages of a vision, many people look for financial viability. But there is a different kind of investor who is far more critical to the soul of a business. Some people may not invest money in your dream, but they invest belief. They validate your quality not with contracts, but with their enthusiasm. They build your reputation not with marketing dollars, but with their loyalty. That belief does not fade. It stays forever, reminding us that our business is about more than just transactions—it is about the shared experience of quality and the relationships built around the table.</p>
+    `
+  },
+  'from-the-shoreline-to-your-doorstep': {
+    id: 5,
+    slug: 'from-the-shoreline-to-your-doorstep',
+    title: 'From the Shoreline to Your Doorstep: The Origins of My Azli Fresh',
+    teaser: 'From export docks to local homes—how My Azli Fresh was born by the sea.',
+    date: 'December 2, 2024',
+    readTime: '4 min read',
+    category: 'Foundership',
+    content: `
+      <p>In today's digital age, most startup stories begin in a boardroom, sketched out on a whiteboard, or hidden within lines of code for a new app. Our story is different. It didn't begin with a business plan; it began by the sea.</p>
+      
+      <p>For years, our team was immersed in the seafood export industry. We spent our mornings at the harbor, watching the fishing boats return with the day's freshest catches. We saw baskets filled with beautiful, pristine varieties of fish—the kind of premium quality that commands high prices in international markets. However, as we watched these shipments get packed and sent abroad, we realized a quiet irony: the finest products from our own shores were rarely reaching our own homes. The local market often received what was left behind, while the premium catch traveled thousands of miles away.</p>
+      
+      <h2>Bridging the Gap: A Taste of Quality</h2>
+      <p>That realization stayed with us, eventually sparking a desire to bridge the gap between the export docks and the local dining table. We started small, testing this idea within our own circle. During family events and village gatherings, we began serving these export-quality seafood varieties—fish that were previously inaccessible to the average local consumer. The reaction was immediate and overwhelming. Guests were amazed by the difference in texture and taste. Many admitted it was the first time they had ever tasted fish of that caliber, or even known that such varieties existed in our waters. Soon, word spread. Families began ordering directly from us. We even received calls from people living abroad, thanking us for giving their parents and loved ones in India access to safe, truly fresh seafood. It became clear that we weren't just selling fish; we were solving a problem of access and trust.</p>
+      
+      <h2>The Birth of a Mission</h2>
+      <p>Those early experiences solidified a core belief that drives us today: everyone deserves the same quality we once reserved for export. That belief became the foundation of My Azli Fresh. But we knew that to build something lasting, we couldn't just rush into the market. We needed to understand the customer first. We launched our operations in Bangalore, starting not with a massive tech rollout, but with a small physical store. This was a deliberate choice. We didn't want to scale quickly; we wanted to learn deeply. For two years, that store served as our classroom. We listened to customers, learned their pain points, and understood what freshness, trust, and convenience truly meant to households in the city.</p>
+      
+      <h2>From Conversation to Commerce</h2>
+      <p>Those two years of face-to-face conversations shaped our transition into the digital space. Today, My Azli Fresh stands as one of Bangalore's growing Q-commerce platforms for fresh seafood and meat delivery. While the technology has changed and our reach has expanded, our heart remains the same. We are still driven by that original mission: to bring the freshness of the ocean straight to your home, without compromise. From the early mornings on the seashore to the kitchens of Bangalore, that is our journey. It is a story not of algorithms, but of bringing the best of the sea to the people who appreciate it most.</p>
+    `
   }
 };
 

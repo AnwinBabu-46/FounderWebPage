@@ -1,155 +1,112 @@
-'use client'
+"use client";
 
-import { motion, useScroll, useTransform, useInView as useInViewMotion } from 'framer-motion'
-import { useInView } from 'framer-motion'
-import { useMemo, useRef } from 'react'
+import { useScroll, useTransform, motion } from "framer-motion";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 
-type JourneyItem = {
-  title: string
-  content: JSX.Element
-  position: 'left' | 'right'
+interface TimelineEntry {
+  title: string;
+  content: React.ReactNode;
 }
 
-const data: JourneyItem[] = [
-  {
-    title: 'Early Life & Coastal Roots',
-    content: (
-      <p className="text-neutral-800 dark:text-neutral-200 text-sm md:text-base mb-8">
-        Born in a rural coastal region of South India, Jamanudeen P grew up around fisheries and the local seafood trade — the foundation of his lifelong connection to the ocean.
-      </p>
-    ),
-    position: 'left',
-  },
-  {
-    title: 'Export Career — 16+ Years in Seafood',
-    content: (
-      <p className="text-neutral-800 dark:text-neutral-200 text-sm md:text-base mb-8">
-        Spent over 16 years in the seafood export business, working with global supply chains that connected India’s coastlines to Los Angeles, Dubai, the UAE, and London. Built deep expertise in cold chain logistics and quality management.
-      </p>
-    ),
-    position: 'right',
-  },
-  {
-    title: 'Supply Chain Expertise',
-    content: (
-      <p className="text-neutral-800 dark:text-neutral-200 text-sm md:text-base mb-8">
-        Developed mastery in export operations — from sourcing and cold storage to transportation and delivery. Learned the power of consistency and transparency in perishable logistics.
-      </p>
-    ),
-    position: 'left',
-  },
-  {
-    title: 'Turning Point — Founding My Azli Fresh',
-    content: (
-      <p className="text-neutral-800 dark:text-neutral-200 text-sm md:text-base mb-8">
-        Transitioned from exporter to entrepreneur — founding My Azli Fresh to bring fresh, chemical-free seafood directly to urban families through a D2C model.
-      </p>
-    ),
-    position: 'right',
-  },
-  {
-    title: 'Building a Purpose-Driven Brand',
-    content: (
-      <p className="text-neutral-800 dark:text-neutral-200 text-sm md:text-base mb-8">
-        My Azli Fresh isn’t just about delivery — it’s about worker welfare, customer trust, and making transparency a core part of the food ecosystem.
-      </p>
-    ),
-    position: 'left',
-  },
-]
+export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
 
-const TimelineCard = ({ item, index }: { item: JourneyItem; index: number }) => {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const isInView = useInView(ref, { once: true, amount: 0.3 })
-
-  const variants = useMemo(
-    () => ({
-      hidden: {
-        opacity: 0,
-        x: item.position === 'left' ? -50 : 50,
-        scale: 0.98,
-      },
-      visible: {
-        opacity: 1,
-        x: 0,
-        scale: 1,
-        transition: {
-          duration: 0.6,
-          delay: index * 0.1,
-          ease: 'easeOut',
-        },
-      },
-    }),
-    [index, item.position]
-  )
-
-  return (
-    <div className="relative flex items-center md:justify-center">
-      <motion.div
-        ref={ref}
-        initial="hidden"
-        animate={isInView ? 'visible' : 'hidden'}
-        variants={variants}
-        className={`w-full md:w-5/12 ${item.position === 'left' ? 'md:mr-auto md:pr-8 md:text-right' : 'md:ml-auto md:pl-8 md:text-left'}`}
-      >
-        <div className="timeline-card relative">
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-heading-text dark:text-white mb-2 sm:mb-3">
-            {item.title}
-          </h3>
-          {item.content}
-        </div>
-      </motion.div>
-
-      <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-3 h-3 sm:w-4 sm:h-4 rounded-full z-30 bg-[#00e5b7] dark:bg-[#14B8A6]" />
-    </div>
-  )
-}
-
-const Timeline = () => {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const isInView = useInViewMotion(ref, { once: true, amount: 0.2 })
+  // Measure and keep height in sync as content loads/resizes
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const update = () => {
+      setHeight(el.scrollHeight);
+    };
+    update();
+    // Resize observer to react to layout changes
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    // Recalculate after images load
+    const imgs = Array.from(el.querySelectorAll("img"));
+    const onImgLoad = () => update();
+    imgs.forEach((img) => {
+      if (img.complete) return;
+      img.addEventListener("load", onImgLoad);
+      img.addEventListener("error", onImgLoad);
+    });
+    // Window resize fallback
+    window.addEventListener("resize", update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+      imgs.forEach((img) => {
+        img.removeEventListener("load", onImgLoad);
+        img.removeEventListener("error", onImgLoad);
+      });
+    };
+  }, []);
 
   const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  })
-  const lineHeight = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
+    target: containerRef,
+    // Start when container enters viewport, finish near end for a full sweep
+    offset: ["start 20%", "end 80%"],
+  });
+
+  const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
+  const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   return (
-    <section id="timeline" className="py-12 sm:py-16 md:py-20 lg:py-32 bg-white dark:bg-black" ref={ref}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
+    <div
+      className="w-full bg-[var(--page-bg)] font-sans md:px-10"
+      ref={containerRef}
+    >
+      <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">
+          Founder&apos;s Journey
+        </h2>
+        <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-3xl">
+          A path shaped by experience, purpose, and the vision to bring quality fresh food to every Indian family.
+        </p>
+      </div>
+
+      <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
+        {data.map((item, index) => (
+          <div
+            key={index}
+            className="flex justify-start pt-10 md:pt-40 md:gap-10"
+          >
+            <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
+              <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white flex items-center justify-center">
+                <div className="h-4 w-4 rounded-full bg-neutral-200 border border-neutral-300 p-2" />
+              </div>
+              <h3 className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold text-neutral-500">
+                {item.title}
+              </h3>
+            </div>
+
+            <div className="relative pl-20 pr-4 md:pl-4 w-full">
+              <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500">
+                {item.title}
+              </h3>
+              {item.content}{" "}
+            </div>
+          </div>
+        ))}
+        <div
+          style={{
+            height: height + "px",
+          }}
+          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 to-transparent to-[99%]  [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)] "
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#0A0F1C] dark:text-white mb-4 sm:mb-6">
-            Founder's Journey
-          </h2>
-          <p className="text-base sm:text-lg text-[#334155] dark:text-neutral-300 max-w-3xl mx-auto px-2">
-            A path shaped by experience, purpose, and the vision to bring quality fresh food to every Indian family
-          </p>
-        </motion.div>
-
-        <div className="relative">
-          <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-[3px] h-full overflow-hidden">
-            <motion.div
-              style={{ height: lineHeight }}
-              className="w-full origin-top bg-gradient-to-b from-[#00b8c4] via-[#00e5b7] to-[#aaffc6] dark:from-[#0D9488] dark:to-[#14B8A6]"
-            />
-          </div>
-
-          <div className="space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-20">
-            {data.map((item, index) => (
-              <TimelineCard key={item.title} item={item} index={index} />
-            ))}
-          </div>
+          <motion.div
+            style={{
+              height: heightTransform,
+              opacity: opacityTransform,
+            }}
+            className="absolute inset-x-0 top-0 w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
+          />
         </div>
       </div>
-    </section>
-  )
-}
+    </div>
+  );
+};
 
-export default Timeline
 

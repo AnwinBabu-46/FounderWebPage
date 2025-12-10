@@ -1,7 +1,7 @@
 "use client"
 
 import { Home, User, Briefcase, FileText, BookOpen } from 'lucide-react'
-import { NavBar } from "./tubelight-navbar"
+import { NavBar } from "./TubelightNavbar"
 
 export function NavBarDemo() {
   const navItems = [

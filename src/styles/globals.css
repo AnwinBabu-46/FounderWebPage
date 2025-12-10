@@ -70,47 +70,9 @@
     --radius-md: 0.5rem;
   }
 
-  /* Dark Mode Variables - Only applied when .dark class is present */
-  .dark {
-    /* Hero and page backgrounds */
-    --hero-bg: radial-gradient(circle at 40% 60%, #7B00FF, #3C005F, #101014);
-    --page-bg: #101014;
-    --inner-dark-purple: #3C005F;
-    --inner-bright-purple: #7B00FF;
-    
-    /* Text colors */
-    --text-primary: #FFFFFF;
-    --text-secondary: #E0D4FF;
-    
-    /* Button colors */
-    --button-bg: #1C1C24;
-    --button-text: #FFFFFF;
-    
-    /* Highlight gradient */
-    --highlight-gradient: linear-gradient(135deg, #6A00FF, #B06BFF);
-    
-    /* Override existing variables for dark mode */
-    --color-primary: #029C92;
-    --color-secondary: #8B03A8;
-    --color-accent: #BFA303;
-    --color-primary-dark: #017A72;
-    --color-secondary-dark: #6B0280;
-    --color-accent-dark: #9F8202;
-    --color-text-primary: #FFFFFF;
-    --color-text-secondary: #E0D4FF;
-    --color-card-bg: #1C1C24;
-    --color-heading-text: #FFFFFF;
-    --color-body-text: #E0D4FF;
-    --color-page-about-bg: #101014;
-    --color-page-contact-bg-left: #3C005F;
-    --color-page-contact-bg-right: #101014;
-    --background: 210 40% 8%;
-    --foreground: 0 0% 95%;
-  }
-  
   /* Light mode defaults (keep existing) */
   :root {
-    --hero-bg: linear-gradient(to bottom right, #2CD3E1, #A0F0E8);
+    --hero-bg: linear-gradient(to right, #1CD6B9 0%, #20E2D7 100%);
     --page-bg: #FFFFFF;
     --text-primary: #0A0F1C;
     --text-secondary: #1F2937;
@@ -185,25 +147,10 @@
     position: relative;
   }
   
-  /* Hero swirl animation for dark mode */
-  @keyframes swirl {
-    0% {
-      background-position: 40% 60%;
-    }
-    100% {
-      background-position: 60% 40%;
-    }
-  }
-  
-  .dark .hero-gradient-bg {
-    animation: swirl 6s ease-in-out infinite alternate;
-  }
-
   .hero-glow-ring {
     background: radial-gradient(circle, var(--color-primary-medium) 0%, var(--color-primary-light) 50%, transparent 70%);
     animation: pulse-glow 3s ease-in-out infinite;
     filter: blur(20px);
-    transform: scale(1.1);
   }
 
   @keyframes pulse-glow {

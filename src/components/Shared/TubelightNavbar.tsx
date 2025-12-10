@@ -6,7 +6,6 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useTheme } from "@/components/theme-provider"
 
 interface NavItem {
   name: string
@@ -25,7 +24,6 @@ export function NavBar({ items, className }: NavBarProps) {
   const [hash, setHash] = useState<string>('')
   const [activeSection, setActiveSection] = useState<string>('')
   const [isScrolled, setIsScrolled] = useState(false)
-  const { theme, setTheme } = useTheme()
 
   useEffect(() => {
     const handleResize = () => {
@@ -221,11 +219,11 @@ export function NavBar({ items, className }: NavBarProps) {
               className={cn(
                 "relative cursor-pointer text-xs sm:text-sm font-semibold px-3 sm:px-4 md:px-6 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0",
                 isScrolled
-                  ? "text-[#0A1F44] hover:text-[#03D6C4] dark:text-[var(--text-primary)] dark:hover:text-[#B06BFF]"
-                  : "text-white hover:text-[#5CF4A2] dark:hover:text-[var(--text-primary)]",
+                  ? "text-[#0A1F44] hover:text-[#03D6C4]"
+                  : "text-white hover:text-[#5CF4A2]",
                 isActive && (isScrolled 
-                  ? "bg-gray-100 text-[#03D6C4] dark:bg-[var(--button-bg)] dark:text-[#B06BFF]" 
-                  : "bg-white/20 text-white dark:bg-[var(--text-primary)]/20"),
+                  ? "bg-gray-100 text-[#03D6C4]" 
+                  : "bg-white/20 text-white"),
               )}
             >
               <span className="hidden sm:inline">{item.name}</span>
@@ -238,8 +236,8 @@ export function NavBar({ items, className }: NavBarProps) {
                   className={cn(
                     "absolute inset-0 w-full rounded-full -z-10",
                     isScrolled 
-                      ? "bg-[#03D6C4]/10 dark:bg-[#B06BFF]/20" 
-                      : "bg-white/20 dark:bg-[var(--text-primary)]/20"
+                      ? "bg-[#03D6C4]/10" 
+                      : "bg-white/20"
                   )}
                   initial={false}
                   transition={{
@@ -252,27 +250,27 @@ export function NavBar({ items, className }: NavBarProps) {
                     className={cn(
                       "absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 rounded-t-full",
                       isScrolled 
-                        ? "bg-[#03D6C4] dark:bg-[var(--highlight-gradient)]" 
-                        : "bg-white dark:bg-[var(--text-primary)]"
+                        ? "bg-[#03D6C4]" 
+                        : "bg-white"
                     )}
                   >
                     <div className={cn(
                       "absolute w-12 h-6 rounded-full blur-md -top-2 -left-2",
                       isScrolled 
-                        ? "bg-[#03D6C4]/20 dark:bg-[#B06BFF]/30" 
-                        : "bg-white/30 dark:bg-[var(--text-primary)]/30"
+                        ? "bg-[#03D6C4]/20" 
+                        : "bg-white/30"
                     )} />
                     <div className={cn(
                       "absolute w-8 h-6 rounded-full blur-md -top-1",
                       isScrolled 
-                        ? "bg-[#03D6C4]/20 dark:bg-[#B06BFF]/30" 
-                        : "bg-white/30 dark:bg-[var(--text-primary)]/30"
+                        ? "bg-[#03D6C4]/20" 
+                        : "bg-white/30"
                     )} />
                     <div className={cn(
                       "absolute w-4 h-4 rounded-full blur-sm top-0 left-2",
                       isScrolled 
-                        ? "bg-[#03D6C4]/20 dark:bg-[#B06BFF]/30" 
-                        : "bg-white/30 dark:bg-[var(--text-primary)]/30"
+                        ? "bg-[#03D6C4]/20" 
+                        : "bg-white/30"
                     )} />
                   </div>
                 </motion.div>
@@ -280,19 +278,6 @@ export function NavBar({ items, className }: NavBarProps) {
             </Link>
           )
         })}
-        <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          aria-label="Toggle theme"
-          className={cn(
-            "ml-1 sm:ml-2 md:ml-3 rounded-full p-2 text-lg transition-all duration-300",
-            isScrolled 
-              ? "text-[#0A1F1C] hover:text-[#03D6C4] dark:text-[var(--text-primary)] dark:hover:text-[#B06BFF]" 
-              : "text-white hover:text-[#aaffc6] dark:hover:text-[var(--text-primary)]",
-            "dark:hover:shadow-[0_0_15px_rgba(176,107,255,0.6)]"
-          )}
-        >
-          {theme === 'dark' ? '☀️' : '🌙'}
-        </button>
       </div>
     </div>
   )

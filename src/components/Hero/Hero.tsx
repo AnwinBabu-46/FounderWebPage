@@ -40,8 +40,8 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="flex items-center justify-center lg:justify-start gap-2 mb-4"
         >
-              <span className="text-white dark:text-[var(--text-primary)] text-lg sm:text-xl font-medium">Hello.</span>
-              <span className="w-2 h-2 rounded-full bg-[#03D6C4] dark:bg-[#B06BFF]"></span>
+              <span className="text-white text-lg sm:text-xl font-medium">Hello.</span>
+              <span className="w-2 h-2 rounded-full bg-[#03D6C4]"></span>
         </motion.div>
 
             {/* Accent Line */}
@@ -58,9 +58,9 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white dark:text-[var(--text-primary)] mb-3"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3"
             >
-              I'm Jamanudeen
+              I&apos;m Jamanudeen
             </motion.h1>
 
             {/* Role */}
@@ -68,7 +68,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white dark:text-[var(--text-primary)] mb-6"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
             >
               Founder — My Azli Fresh
             </motion.h2>
@@ -78,7 +78,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="text-base sm:text-lg md:text-xl text-white/90 dark:text-[var(--text-primary)]/90 mb-4 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+              className="text-base sm:text-lg md:text-xl text-white mb-4 leading-relaxed max-w-2xl mx-auto lg:mx-0"
             >
               Transforming how fresh, chemical-free food reaches Indian families.
             </motion.p>
@@ -88,7 +88,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="text-sm sm:text-base md:text-lg text-white/70 dark:text-[var(--text-secondary)] mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
+              className="text-sm sm:text-base md:text-lg text-white mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
             >
               From coastal roots to urban innovation — a journey redefining freshness & purpose.
             </motion.p>
@@ -102,23 +102,19 @@ const Hero = () => {
             >
               <button
                 onClick={scrollToTimeline}
-                className="px-8 py-3 font-semibold rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 w-full sm:w-auto bg-[#03D6C4] dark:bg-[var(--button-bg)] text-white dark:text-[var(--button-text)] dark:hover:shadow-[0_0_15px_rgba(176,107,255,0.6)]"
+                className="px-8 py-3 font-semibold rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 w-full sm:w-auto bg-[#03D6C4] text-white"
                 onMouseEnter={(e) => {
-                  if (!document.documentElement.classList.contains('dark')) {
-                    e.currentTarget.style.backgroundColor = '#02B6A5'
-                  }
+                  e.currentTarget.style.backgroundColor = '#02B6A5'
                 }}
                 onMouseLeave={(e) => {
-                  if (!document.documentElement.classList.contains('dark')) {
-                    e.currentTarget.style.backgroundColor = '#03D6C4'
-                  }
+                  e.currentTarget.style.backgroundColor = '#03D6C4'
                 }}
               >
                 About Journey
               </button>
               <Link
                 href="/blog"
-                className="px-8 py-3 border-2 border-white dark:border-[var(--text-primary)] text-white dark:text-[var(--text-primary)] font-semibold rounded-lg hover:bg-white/10 dark:hover:bg-[var(--text-primary)]/10 transition-all duration-200 hover:scale-105 active:scale-95 text-center w-full sm:w-auto"
+                className="px-8 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-all duration-200 hover:scale-105 active:scale-95 text-center w-full sm:w-auto"
               >
                 Read Blog
               </Link>
@@ -138,7 +134,7 @@ const Hero = () => {
               
               {/* Founder Image with Circular Frame */}
               <div 
-                className="relative w-full h-full rounded-full z-10 dark:bg-[radial-gradient(circle_at_center,var(--inner-bright-purple),var(--inner-dark-purple))]"
+                className="relative w-full h-full rounded-full z-10"
                 style={{
                   backgroundColor: '#FAFAFA',
                   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
@@ -157,8 +153,8 @@ const Hero = () => {
                       onError={() => setImageError(true)}
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary-medium to-primary-light dark:bg-[radial-gradient(circle_at_center,var(--inner-bright-purple),var(--inner-dark-purple))] flex items-center justify-center rounded-full">
-                      <span className="text-text-on-primary dark:text-[var(--text-primary)] text-4xl sm:text-5xl md:text-6xl font-bold">JP</span>
+                    <div className="w-full h-full bg-gradient-to-br from-primary-medium to-primary-light flex items-center justify-center rounded-full">
+                      <span className="text-text-on-primary text-4xl sm:text-5xl md:text-6xl font-bold">JP</span>
                     </div>
                   )}
                 </div>
@@ -166,12 +162,12 @@ const Hero = () => {
 
               {/* Decorative arrows */}
               <div className="absolute -left-8 top-1/2 -translate-y-1/2 hidden lg:block">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="text-white/30 dark:text-[var(--text-primary)]/30">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="text-white/30">
                   <path d="M25 10L15 20L25 30" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
               <div className="absolute -right-8 top-1/2 -translate-y-1/2 hidden lg:block">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="text-white/30 dark:text-[var(--text-primary)]/30">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="text-white/30">
                   <path d="M15 10L25 20L15 30" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
