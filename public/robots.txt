@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://founder-webpage.vercel.app/sitemap.xml

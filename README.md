@@ -162,11 +162,8 @@ npm run start
 This project is private and proprietary.
 
 ## 👤 Author
-
-**Jamanudeen P**
-- Email: Jaman@myazlifresh.com
-- LinkedIn: [jamanudeenp](https://www.linkedin.com/in/jamanudeenp/)
-- Instagram: [@jamanudeenp](https://www.instagram.com/jamanudeenp)
+Anwin Babu o 
+gmail - anwino2003@gmail.com
 
 ## 🙏 Acknowledgments
 
