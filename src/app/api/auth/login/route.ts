@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { encrypt, verifyPassword, hashPassword } from '@/lib/auth';
+import { encrypt } from '@/lib/auth-session';
+import { verifyPassword } from '@/lib/auth-password';
 
-// Default: admin@example.com / admin123
-const DEFAULT_EMAIL = 'admin@example.com';
-// Hash for 'admin123'
-const DEFAULT_HASH = '$2a$10$vI8aWBnW3fID.ZQ4/zo1G.q1lRps.9cGLcZEiGDMVr5yUP1KUOYTa';
+// Default: Jaman@myazlifresh.com / azilfreshjamanu@446
+const DEFAULT_EMAIL = 'Jaman@myazlifresh.com';
+const DEFAULT_HASH = '$2b$10$TTHZjGQMhqOFAfYX8Ug4AufQBnX0QwTsLMAA7NFTefb1V34cKh4ga';
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     const envEmail = process.env.ADMIN_EMAIL || DEFAULT_EMAIL;
     const envHash = process.env.ADMIN_PASSWORD_HASH || DEFAULT_HASH;
 
-    if (email !== envEmail) {
+    if (email.toLowerCase() !== envEmail.toLowerCase()) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
@@ -24,8 +24,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    // Create session
-    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
     const session = await encrypt({ user: 'admin', expires });
 
     const response = NextResponse.json({ success: true });
@@ -40,6 +39,7 @@ export async function POST(request: Request) {
 
     return response;
   } catch (error) {
+    console.error('Login error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -1,12 +1,30 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { decrypt } from './lib/auth';
+import { decrypt } from './lib/auth-session';
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
+  // Handle authenticated users trying to access login page
+  if (path === '/admin/login') {
+    const session = request.cookies.get('session')?.value;
+    if (session) {
+      try {
+        const payload = await decrypt(session);
+        if (payload) {
+          // Already authenticated, redirect to dashboard
+          return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+        }
+      } catch (e) {
+        // Invalid session, continue to login page
+        return NextResponse.next();
+      }
+    }
+    return NextResponse.next();
+  }
+
   // Protect /admin routes and /api/admin routes
-  if ((path.startsWith('/admin') && !path.startsWith('/admin/login')) || path.startsWith('/api/admin')) {
+  if ((path.startsWith('/admin') || path.startsWith('/api/admin'))) {
     const session = request.cookies.get('session')?.value;
     
     if (!session) {

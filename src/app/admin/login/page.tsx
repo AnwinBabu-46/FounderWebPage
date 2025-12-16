@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 
@@ -24,8 +24,14 @@ export default function LoginPage() {
       });
 
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || 'Login failed');
+        let errorMessage = 'Login failed';
+        try {
+          const data = await res.json();
+          errorMessage = data.error || errorMessage;
+        } catch (e) {
+          console.error('Non-JSON response received');
+        }
+        throw new Error(errorMessage);
       }
 
       router.push('/admin/dashboard');
@@ -37,6 +43,22 @@ export default function LoginPage() {
     }
   }
 
+  // Check if already logged in on client side
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch('/api/auth/check-session', { method: 'GET' });
+        if (res.ok) {
+          router.push('/admin/dashboard');
+        }
+      } catch (error) {
+        console.error('Session check failed:', error);
+      }
+    };
+    
+    checkAuth();
+  }, [router]);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
@@ -44,7 +66,7 @@ export default function LoginPage() {
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Admin Login</h2>
           <p className="mt-2 text-sm text-gray-600">Access the blog dashboard</p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6" aria-live="polite">
           <div className="rounded-md shadow-sm space-y-4">
             <div>
               <label htmlFor="email-address" className="sr-only">Email address</label>
