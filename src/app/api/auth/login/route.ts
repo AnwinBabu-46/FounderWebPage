@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { encrypt } from '@/lib/auth-session';
 import { verifyPassword } from '@/lib/auth-password';
 
+export const dynamic = 'force-dynamic';
+
 // Default: Jaman@myazlifresh.com / azilfreshjamanu@446
 const DEFAULT_EMAIL = 'Jaman@myazlifresh.com';
 const DEFAULT_HASH = '$2b$10$TTHZjGQMhqOFAfYX8Ug4AufQBnX0QwTsLMAA7NFTefb1V34cKh4ga';
