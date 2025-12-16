@@ -4,9 +4,9 @@ import { verifyPassword } from '@/lib/auth-password';
 
 export const dynamic = 'force-dynamic';
 
-// Default: Jaman@myazlifresh.com / azilfreshjamanu@446
-const DEFAULT_EMAIL = 'Jaman@myazlifresh.com';
-const DEFAULT_HASH = '$2b$10$TTHZjGQMhqOFAfYX8Ug4AufQBnX0QwTsLMAA7NFTefb1V34cKh4ga';
+// Default: Jamanudeen@myazlifresh.com / 446$Jamanudeen.co$
+const DEFAULT_EMAIL = 'Jamanudeen@myazlifresh.com';
+const DEFAULT_HASH = '$2b$10$ckB0qU07ARBZ5hRDKNXJdeG1kTzypwRgBXGkTgFwNwLlZfTu9sZbO';
 
 export async function POST(request: Request) {
   try {
