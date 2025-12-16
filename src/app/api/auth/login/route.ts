@@ -20,26 +20,54 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
     }
 
-    const body = await request.json();
-    const { email, password } = body;
+    // Safe body parsing
+    let body;
+    try {
+      body = await request.json();
+    } catch (error) {
+      return NextResponse.json({ error: 'Invalid request body' }, { status: 400 });
+    }
+
+    // Input validation
+    const { email, password } = body || {};
+    
+    if (!email || typeof email !== 'string') {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    }
+    
+    if (!password || typeof password !== 'string') {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
+    }
 
     if (email.toLowerCase() !== envEmail.toLowerCase()) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const isValid = await verifyPassword(password, envHash);
+    // Safe password verification
+    let isValid;
+    try {
+      isValid = await verifyPassword(password, envHash);
+    } catch (error) {
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    }
 
     if (!isValid) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
-    const session = await encrypt({ user: 'admin', expires });
+    // Safe session creation
+    let session;
+    try {
+      const expires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+      session = await encrypt({ user: 'admin', expires });
+    } catch (error) {
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    }
 
     const response = NextResponse.json({ success: true });
     
     response.cookies.set('session', session, {
-      expires,
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
