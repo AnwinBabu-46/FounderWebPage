@@ -10,7 +10,6 @@ const DEFAULT_EMAIL = 'Jamanudeen@myazlifresh.com';
 const DEFAULT_HASH = '$2b$10$ckB0qU07ARBZ5hRDKNXJdeG1kTzypwRgBXGkTgFwNwLlZfTu9sZbO';
 
 export async function POST(request: Request) {
-  console.log("LOGIN ROUTE HIT");
   try {
     // Environment validation
     const envEmail = process.env.ADMIN_EMAIL || DEFAULT_EMAIL;
