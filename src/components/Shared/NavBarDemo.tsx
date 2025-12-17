@@ -5,7 +5,7 @@ import { NavBar } from "./TubelightNavbar"
 
 export function NavBarDemo() {
   const navItems = [
-    { name: 'Home', url: '/', icon: Home },
+    { name: 'Home', url: '#home', icon: Home },
     { name: 'About', url: '#timeline', icon: User },
     { name: 'Blog', url: '/blog', icon: BookOpen },
     { name: 'Contact', url: '#contact', icon: FileText }
