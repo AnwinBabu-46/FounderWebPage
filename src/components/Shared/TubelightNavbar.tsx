@@ -62,27 +62,55 @@ export function NavBar({ items, className }: NavBarProps) {
 
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -70% 0px', // Trigger when section is 20% from top
-      threshold: [0, 0.25, 0.5, 0.75, 1]
+      rootMargin: '-10% 0px -60% 0px', // More sensitive detection
+      threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]
     }
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      // Find the section that's most visible
-      let maxIntersection = 0
-      let activeId = ''
+      // Sort entries by their position on screen (top to bottom)
+      const sortedEntries = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => {
+          const aRect = a.boundingClientRect
+          const bRect = b.boundingClientRect
+          return aRect.top - bRect.top
+        })
 
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio > maxIntersection) {
-          maxIntersection = entry.intersectionRatio
-          activeId = entry.target.id
+      // Find the section that's most prominently visible
+      let bestEntry: IntersectionObserverEntry | null = null
+      let bestScore = 0
+
+      for (const entry of sortedEntries) {
+        const rect = entry.boundingClientRect
+        const viewportHeight = window.innerHeight
+        
+        // Calculate visibility score based on how much of the section is visible
+        // and how close it is to the center of the viewport
+        const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0)
+        const visibilityRatio = visibleHeight / Math.min(rect.height, viewportHeight)
+        
+        // Prefer sections that are closer to the top of the viewport
+        const centerDistance = Math.abs(rect.top + rect.height / 2 - viewportHeight / 2)
+        const centerScore = 1 - (centerDistance / viewportHeight)
+        
+        // Combined score: visibility ratio weighted with center proximity
+        const score = visibilityRatio * 0.7 + centerScore * 0.3
+        
+        if (score > bestScore) {
+          bestScore = score
+          bestEntry = entry
         }
-      })
+      }
 
-      if (activeId) {
-        setActiveSection(`#${activeId}`)
-        // Update URL hash without scrolling
-        if (window.history.replaceState) {
-          window.history.replaceState(null, '', `#${activeId}`)
+      if (bestEntry) {
+        const targetElement = bestEntry.target as Element
+        const newActiveSection = `#${targetElement.id}`
+        if (newActiveSection !== activeSection) {
+          setActiveSection(newActiveSection)
+          // Update URL hash without scrolling
+          if (window.history.replaceState) {
+            window.history.replaceState(null, '', newActiveSection === '#home' ? '/' : newActiveSection)
+          }
         }
       }
     }
@@ -91,31 +119,58 @@ export function NavBar({ items, className }: NavBarProps) {
 
     // Observe all sections with IDs
     const sections = ['home', 'timeline', 'contact']
+    const observedElements: Element[] = []
+    
     sections.forEach((id) => {
       const element = document.getElementById(id)
       if (element) {
         observer.observe(element)
+        observedElements.push(element)
       }
     })
 
-    // Also check initial hash
-    if (window.location.hash) {
-      setActiveSection(window.location.hash)
-    } else {
-      // Default to home section if at top of page
-      const heroSection = document.getElementById('home')
-      if (heroSection) {
-        const rect = heroSection.getBoundingClientRect()
-        if (rect.top >= 0 && rect.top < window.innerHeight * 0.5) {
+    // Set initial active section based on current scroll position
+    const setInitialActiveSection = () => {
+      if (window.location.hash) {
+        setActiveSection(window.location.hash)
+      } else {
+        // Check which section is currently most visible
+        let bestElement: Element | null = null
+        let bestScore = 0
+
+        observedElements.forEach((element) => {
+          const rect = element.getBoundingClientRect()
+          const viewportHeight = window.innerHeight
+          
+          if (rect.bottom > 0 && rect.top < viewportHeight) {
+            const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0)
+            const visibilityRatio = visibleHeight / Math.min(rect.height, viewportHeight)
+            
+            if (visibilityRatio > bestScore) {
+              bestScore = visibilityRatio
+              bestElement = element
+            }
+          }
+        })
+
+        if (bestElement) {
+          const element = bestElement as HTMLElement
+          setActiveSection(`#${element.id}`)
+        } else {
+          // Default to home if nothing is visible
           setActiveSection('#home')
         }
       }
     }
 
+    // Set initial state after a brief delay to ensure DOM is ready
+    const timeoutId = setTimeout(setInitialActiveSection, 100)
+
     return () => {
+      clearTimeout(timeoutId)
       observer.disconnect()
     }
-  }, [pathname])
+  }, [pathname, activeSection])
 
   // Listen for hash changes
   useEffect(() => {
@@ -148,20 +203,28 @@ export function NavBar({ items, className }: NavBarProps) {
     
     // For hash links, check if we're on home page
     if (pathname === '/') {
-      // Use activeSection from IntersectionObserver if available
-      const currentHash = activeSection || hash || (typeof window !== 'undefined' ? window.location.hash : '')
+      // Use activeSection from IntersectionObserver if available, otherwise fall back to hash
+      const currentSection = activeSection || hash || (typeof window !== 'undefined' ? window.location.hash : '')
       
-      // If we're at home section (no hash or #home), highlight Home nav item
-      if (!currentHash || currentHash === '#home') {
+      // Map sections to navigation items
+      if (!currentSection || currentSection === '#home' || currentSection === '/') {
         const homeItem = items.find(item => item.url === '/')
         if (homeItem) return homeItem.name
       }
       
-      // Check for other hash matches
-      if (currentHash) {
-        const hashMatch = items.find(item => item.url === currentHash)
-        if (hashMatch) return hashMatch.name
+      if (currentSection === '#timeline') {
+        const aboutItem = items.find(item => item.url === '#timeline')
+        if (aboutItem) return aboutItem.name
       }
+      
+      if (currentSection === '#contact') {
+        const contactItem = items.find(item => item.url === '#contact')
+        if (contactItem) return contactItem.name
+      }
+      
+      // Check for exact hash matches as fallback
+      const hashMatch = items.find(item => item.url === currentSection)
+      if (hashMatch) return hashMatch.name
       
       // Default to Home on home page
       return items[0].name
