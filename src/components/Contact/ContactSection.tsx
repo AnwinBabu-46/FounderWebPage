@@ -82,7 +82,7 @@ const ContactSection = () => {
             Let&apos;s Build Together
           </h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-3xl mx-auto px-2">
-            Whether you&apos;re interested in partnership opportunities, want to learn more about our mission, or simply want to connect — we&apos;d love to hear from you.
+            Whether you&apos;re interested in partnership opportunities, want to learn more about our mission, or simply want to connect we&apos;d love to hear from you.
           </p>
         </motion.div>
 

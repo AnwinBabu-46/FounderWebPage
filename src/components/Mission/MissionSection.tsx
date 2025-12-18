@@ -104,7 +104,7 @@ const MissionSection = () => {
           className="text-center mb-12 sm:mb-16 md:mb-20 lg:mb-24"
         >
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">
-            The Mission — Purpose with Freshness
+            The Mission Purpose with Freshness
           </h2>
           <p className="text-base sm:text-lg text-[var(--text-secondary)] max-w-3xl mx-auto px-2">
             Our commitment to delivering the highest quality fresh food while maintaining transparency and customer choice

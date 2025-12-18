@@ -70,7 +70,7 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6"
             >
-              Founder — My Azli Fresh
+              Founder  My Azli Fresh
             </motion.h2>
 
             {/* Tagline */}
@@ -80,7 +80,7 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="text-base sm:text-lg md:text-xl text-white mb-4 leading-relaxed max-w-2xl mx-auto lg:mx-0"
             >
-              Transforming how fresh, chemical-free food reaches Indian families.
+              Transforming how chemical free,fresh food reaches Indian families.
             </motion.p>
 
             {/* Subtext */}
@@ -90,7 +90,7 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="text-sm sm:text-base md:text-lg text-white mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
             >
-              From coastal roots to urban innovation — a journey redefining freshness & purpose.
+              From coastal roots to urban innovation a journey redefining freshness & purpose.
             </motion.p>
 
             {/* CTA Buttons */}
