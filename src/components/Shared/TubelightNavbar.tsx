@@ -45,7 +45,8 @@ export function NavBar({ items, className }: NavBarProps) {
       const heroSection = document.getElementById('home')
       if (heroSection) {
         const rect = heroSection.getBoundingClientRect()
-        setIsScrolled(rect.bottom < 100)
+        // Switch to solid background earlier - when hero is mostly out of view OR when scrolled past a certain point
+        setIsScrolled(rect.bottom < 200 || window.scrollY > 300)
       }
     }
 
@@ -164,13 +165,13 @@ export function NavBar({ items, className }: NavBarProps) {
   return (
     <div
       className={cn(
-        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6",
+        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6 pointer-events-none",
         className,
       )}
     >
       <div
         className={cn(
-          "flex items-center gap-1 sm:gap-2 md:gap-3 border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg transition-all duration-300",
+          "flex items-center gap-1 sm:gap-2 md:gap-3 border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg transition-all duration-300 pointer-events-auto",
           isScrolled
             ? "bg-white border-gray-200"
             : "bg-gradient-to-r from-[#00b8c4]/20 via-[#00e5b7]/20 to-[#aaffc6]/20 border-[#03D6C4]/30"
@@ -204,7 +205,7 @@ export function NavBar({ items, className }: NavBarProps) {
                 <motion.div
                   layoutId="lamp"
                   className={cn(
-                    "absolute inset-0 w-full rounded-full -z-10",
+                    "absolute inset-0 w-full rounded-full -z-10 pointer-events-none",
                     isScrolled 
                       ? "bg-[#03D6C4]/10" 
                       : "bg-white/20"
@@ -218,26 +219,26 @@ export function NavBar({ items, className }: NavBarProps) {
                 >
                   <div
                     className={cn(
-                      "absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 rounded-t-full",
+                      "absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 rounded-t-full pointer-events-none",
                       isScrolled 
                         ? "bg-[#03D6C4]" 
                         : "bg-white"
                     )}
                   >
                     <div className={cn(
-                      "absolute w-12 h-6 rounded-full blur-md -top-2 -left-2",
+                      "absolute w-12 h-6 rounded-full blur-md -top-2 -left-2 pointer-events-none",
                       isScrolled 
                         ? "bg-[#03D6C4]/20" 
                         : "bg-white/30"
                     )} />
                     <div className={cn(
-                      "absolute w-8 h-6 rounded-full blur-md -top-1",
+                      "absolute w-8 h-6 rounded-full blur-md -top-1 pointer-events-none",
                       isScrolled 
                         ? "bg-[#03D6C4]/20" 
                         : "bg-white/30"
                     )} />
                     <div className={cn(
-                      "absolute w-4 h-4 rounded-full blur-sm top-0 left-2",
+                      "absolute w-4 h-4 rounded-full blur-sm top-0 left-2 pointer-events-none",
                       isScrolled 
                         ? "bg-[#03D6C4]/20" 
                         : "bg-white/30"

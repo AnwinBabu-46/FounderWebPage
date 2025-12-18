@@ -50,8 +50,21 @@ const ContactSection = () => {
     setIsSubmitting(true)
 
     try {
-      // Simulate form submission (replace with actual service like Formspree)
-      await new Promise(resolve => setTimeout(resolve, 2000))
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          message: data.message
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send message')
+      }
 
       setSubmitStatus('success')
       reset()
@@ -92,15 +105,14 @@ const ContactSection = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative z-0"
-            style={{ isolation: 'isolate' }}
+            className="relative z-[60]"
           >
-            <div className="bg-[var(--card-bg)] p-6 sm:p-8 rounded-lg border-2 border-primary-new" style={{ overflow: 'visible' }}>
+            <div className="bg-[var(--card-bg)] p-6 sm:p-8 rounded-lg border-2 border-primary-new">
               <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">
                 Send a Message
               </h3>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6" style={{ pointerEvents: 'auto' }}>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 sm:space-y-6">
                 {/* Honeypot field for spam protection */}
                 <input
                   type="text"
@@ -230,16 +242,15 @@ const ContactSection = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="space-y-8 relative z-[9998]"
-            style={{ pointerEvents: 'auto', isolation: 'isolate', position: 'relative', zIndex: 9998 }}
+            className="space-y-8 relative z-[60]"
           >
             {/* Contact details */}
-            <div className="relative z-[9999]" style={{ position: 'relative', zIndex: 9999 }}>
+            <div>
               <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-4 sm:mb-6">
                 Get in Touch
               </h3>
 
-              <div className="space-y-3 sm:space-y-4" style={{ position: 'relative', zIndex: 9999 }}>
+              <div className="space-y-3 sm:space-y-4">
                 <a 
                   href="mailto:Jaman@myazlifresh.com" 
                   onClick={(e) => {
@@ -247,15 +258,8 @@ const ContactSection = () => {
                     e.stopPropagation()
                     window.location.href = 'mailto:Jaman@myazlifresh.com'
                   }}
-                  className="relative z-[9999] flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover transition-colors break-words cursor-pointer"
+                  className="flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover transition-colors break-words cursor-pointer"
                   aria-label="Send email to Jaman@myazlifresh.com"
-                  style={{ 
-                    position: 'relative', 
-                    zIndex: 9999,
-                    pointerEvents: 'auto',
-                    display: 'flex',
-                    cursor: 'pointer'
-                  }}
                 >
                   <Mail className="text-primary-new flex-shrink-0 mt-0.5 sm:mt-0 pointer-events-none" size={18} />
                   <span className="text-sm sm:text-base text-[var(--text-secondary)] break-all pointer-events-none">Jaman@myazlifresh.com</span>
@@ -267,18 +271,19 @@ const ContactSection = () => {
                   className="flex items-start sm:items-center space-x-3 sm:space-x-4 hover:text-link-hover transition-colors cursor-pointer"
                 >
                   <MapPin className="text-primary-new flex-shrink-0 mt-0.5 sm:mt-0" size={18} />
-                  <span className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">Shop No 6, Site No 2, Assessment No 3, Mahadevapura Village, KR Puram Hobli, B.B.M.P East, Bangalore North, Karnataka, India - 560048</span>
+                  <span className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">My Azli Fresh 
+                     No :109/1 Immadihalli Main Rd, Nagondanahalli, Whitefield, Bengaluru, 560066</span>
                 </a>
               </div>
             </div>
 
             {/* Social links */}
-            <div className="relative z-[9999]" style={{ position: 'relative', zIndex: 9999 }}>
+            <div className="relative z-10">
               <h3 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] mb-3 sm:mb-4">
                 Follow Our Journey
               </h3>
 
-              <div className="flex space-x-4 sm:space-x-6 relative" style={{ position: 'relative', zIndex: 9999 }}>
+              <div className="flex space-x-4 sm:space-x-6 relative z-10">
                 {socialLinks.map((social) => {
                   const Icon = social.icon
                   const isEmail = social.name === 'Email'
@@ -296,14 +301,9 @@ const ContactSection = () => {
                       href={social.url}
                       onClick={handleClick}
                       {...(isEmail ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-                      className={`relative z-[9999] inline-flex items-center justify-center text-primary-new transition-colors cursor-pointer p-2 min-w-[44px] min-h-[44px] ${social.color}`}
+                      className={`relative z-10 inline-flex items-center justify-center text-primary-new transition-colors cursor-pointer p-2 min-w-[44px] min-h-[44px] ${social.color}`}
                       aria-label={isEmail ? `Send email to ${social.url.replace('mailto:', '')}` : social.name}
                       style={{ 
-                        position: 'relative', 
-                        zIndex: 9999,
-                        pointerEvents: 'auto',
-                        display: 'inline-flex',
-                        cursor: 'pointer',
                         WebkitTapHighlightColor: 'transparent'
                       }}
                     >
@@ -315,7 +315,7 @@ const ContactSection = () => {
             </div>
 
             {/* Call to action */}
-            <div className="bg-[var(--card-bg)] p-5 sm:p-6 rounded-lg border-2 border-primary-new" style={{ position: 'relative', zIndex: 10000, pointerEvents: 'auto' }}>
+            <div className="bg-[var(--card-bg)] p-5 sm:p-6 rounded-lg border-2 border-primary-new relative z-10">
               <h4 className="text-base sm:text-lg font-bold text-[var(--text-primary)] mb-2">
                 Partnership Inquiries
               </h4>
@@ -326,15 +326,7 @@ const ContactSection = () => {
                 href="https://myazlifresh.com" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary inline-block text-sm sm:text-base no-underline"
-                style={{ 
-                  pointerEvents: 'auto', 
-                  zIndex: 10001,
-                  position: 'relative',
-                  cursor: 'pointer',
-                  display: 'inline-block',
-                  textDecoration: 'none'
-                }}
+                className="btn-primary inline-block text-sm sm:text-base no-underline relative z-10"
               >
                 Learn More
               </a>
