@@ -59,6 +59,8 @@ export function NavBar({ items, className }: NavBarProps) {
   useEffect(() => {
     if (pathname !== '/') return
 
+    let lastScrollY = window.scrollY
+
     const observerOptions = {
       root: null,
       rootMargin: '-100px 0px -50% 0px',
@@ -66,6 +68,10 @@ export function NavBar({ items, className }: NavBarProps) {
     }
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      const currentScrollY = window.scrollY
+      const isScrollingDown = currentScrollY > lastScrollY
+      lastScrollY = currentScrollY
+
       let mostVisibleEntry: IntersectionObserverEntry | undefined
       let maxVisibilityScore = 0
 
@@ -81,7 +87,12 @@ export function NavBar({ items, className }: NavBarProps) {
           // Pure visibility - no bias
           const visibilityScore = visibleHeight / Math.min(rect.height, viewportHeight)
           
-          if (visibilityScore > maxVisibilityScore) {
+          // Direction-aware exclusion: exclude Home when scrolling down and visibility < 30%
+          const targetElement = entry.target as HTMLElement
+          const isHomeSection = targetElement.id === 'home'
+          const shouldExcludeHome = isHomeSection && isScrollingDown && visibilityScore < 0.3
+          
+          if (!shouldExcludeHome && visibilityScore > maxVisibilityScore) {
             maxVisibilityScore = visibilityScore
             mostVisibleEntry = entry
           }
@@ -95,10 +106,6 @@ export function NavBar({ items, className }: NavBarProps) {
         
         setActiveSection((prev) => {
           if (prev !== newActiveSection) {
-            // URL follows state
-            if (window.history.replaceState) {
-              window.history.replaceState(null, '', newActiveSection)
-            }
             return newActiveSection
           }
           return prev
@@ -118,14 +125,19 @@ export function NavBar({ items, className }: NavBarProps) {
       }
     })
 
-    // Initialize from URL or default to home
-    const initialHash = window.location.hash || '#home'
-    setActiveSection(initialHash)
+    // Let observer determine initial state - no URL override
 
     return () => {
       observer.disconnect()
     }
   }, [pathname])
+
+  // URL synchronization - separate from observer logic
+  useEffect(() => {
+    if (pathname === '/' && activeSection && window.history.replaceState) {
+      window.history.replaceState(null, '', activeSection)
+    }
+  }, [activeSection, pathname])
 
   // Simple active tab calculation
   const activeTab = useMemo(() => {
