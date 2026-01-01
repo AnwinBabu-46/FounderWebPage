@@ -1,26 +1,37 @@
 import { BlogService } from '@/lib/blog-service';
 import { BlogPostFull, BlogPostSummary } from './types';
 
-// Load posts dynamically
-const allPosts = BlogService.getAll();
+/**
+ * Fetches all posts and returns them as a dictionary keyed by slug.
+ */
+export async function getBlogPostsData(): Promise<Record<string, BlogPostFull>> {
+  const allPosts = await BlogService.getAll();
 
-export const blogPostsData: Record<string, BlogPostFull> = allPosts.reduce((acc, post) => {
-  acc[post.slug] = post;
-  return acc;
-}, {} as Record<string, BlogPostFull>);
+  return allPosts.reduce((acc, post) => {
+    acc[post.slug] = post;
+    return acc;
+  }, {} as Record<string, BlogPostFull>);
+}
 
-export const blogPostsSummary: BlogPostSummary[] = Object.values(blogPostsData).map(post => ({
-  id: post.id,
-  slug: post.slug,
-  title: post.title,
-  teaser: post.teaser,
-  date: post.date,
-  readTime: post.readTime,
-  category: post.category
-}));
+/**
+ * Fetches all posts, summarizes them, and sorts them by date.
+ */
+export async function getBlogPostsSummarySorted(): Promise<BlogPostSummary[]> {
+  const allPosts = await BlogService.getAll();
 
-export const blogPostsSummarySorted = [...blogPostsSummary].sort((a, b) => {
-  const dateA = new Date(a.date);
-  const dateB = new Date(b.date);
-  return dateB.getTime() - dateA.getTime();
-});
+  const summary = allPosts.map(post => ({
+    id: post.id,
+    slug: post.slug,
+    title: post.title,
+    teaser: post.teaser,
+    date: post.date,
+    readTime: post.readTime,
+    category: post.category
+  }));
+
+  return summary.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateB.getTime() - dateA.getTime();
+  });
+}

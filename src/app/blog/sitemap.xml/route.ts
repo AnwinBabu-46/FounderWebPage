@@ -1,9 +1,12 @@
-import { blogPostsSummarySorted } from '@/data/blog/posts';
+import { getBlogPostsSummarySorted } from '@/data/blog/posts';
 
 export async function GET() {
   const baseUrl = 'https://founder-webpage.vercel.app';
   
-  const urls = blogPostsSummarySorted.map(post => `
+  // Fetch posts asynchronously
+  const posts = await getBlogPostsSummarySorted();
+  
+  const urls = posts.map(post => `
     <url>
       <loc>${baseUrl}/blog/${post.slug}</loc>
       <lastmod>${new Date(post.date).toISOString().split('T')[0]}</lastmod>

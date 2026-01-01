@@ -24,6 +24,7 @@ export function NavBar({ items, className }: NavBarProps) {
   const [activeSection, setActiveSection] = useState<string>('#home')
   const [isScrolled, setIsScrolled] = useState(false)
 
+  // 1. Resize Handler
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768)
@@ -34,7 +35,7 @@ export function NavBar({ items, className }: NavBarProps) {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  // Scroll detection for navbar color change
+  // 2. Scroll Style Handler (Changes color when scrolling)
   useEffect(() => {
     if (pathname !== '/') {
       setIsScrolled(true)
@@ -42,12 +43,9 @@ export function NavBar({ items, className }: NavBarProps) {
     }
 
     const handleScroll = () => {
-      const heroSection = document.getElementById('home')
-      if (heroSection) {
-        const rect = heroSection.getBoundingClientRect()
-        // Switch to solid background earlier - when hero is mostly out of view OR when scrolled past a certain point
-        setIsScrolled(rect.bottom < 200 || window.scrollY > 300)
-      }
+      // Switch to solid background as soon as user scrolls down 50px
+      // This is more reliable than calculating bounding rects for the hero
+      setIsScrolled(window.scrollY > 50)
     }
 
     handleScroll()
@@ -55,67 +53,29 @@ export function NavBar({ items, className }: NavBarProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [pathname])
 
-  // IntersectionObserver - SINGLE SOURCE OF TRUTH
+  // 3. THE FIX: IntersectionObserver with "Center Line" Logic
   useEffect(() => {
     if (pathname !== '/') return
 
-    let lastScrollY = window.scrollY
-
     const observerOptions = {
       root: null,
-      rootMargin: '-100px 0px -50% 0px',
-      threshold: [0, 0.25, 0.5, 0.75, 1]
+      // This margin creates a narrow "trigger zone" in the middle of the screen.
+      // The navbar updates ONLY when a section crosses this center line.
+      rootMargin: '-45% 0px -45% 0px',
+      threshold: 0
     }
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      const currentScrollY = window.scrollY
-      const isScrollingDown = currentScrollY > lastScrollY
-      lastScrollY = currentScrollY
-
-      let mostVisibleEntry: IntersectionObserverEntry | undefined
-      let maxVisibilityScore = 0
-
-      for (const entry of entries) {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const rect = entry.boundingClientRect
-          const viewportHeight = window.innerHeight
-          
-          const visibleTop = Math.max(rect.top, 0)
-          const visibleBottom = Math.min(rect.bottom, viewportHeight)
-          const visibleHeight = Math.max(0, visibleBottom - visibleTop)
-          
-          // Pure visibility - no bias
-          const visibilityScore = visibleHeight / Math.min(rect.height, viewportHeight)
-          
-          // Direction-aware exclusion: exclude Home when scrolling down and visibility < 30%
-          const targetElement = entry.target as HTMLElement
-          const isHomeSection = targetElement.id === 'home'
-          const shouldExcludeHome = isHomeSection && isScrollingDown && visibilityScore < 0.3
-          
-          if (!shouldExcludeHome && visibilityScore > maxVisibilityScore) {
-            maxVisibilityScore = visibilityScore
-            mostVisibleEntry = entry
-          }
+          setActiveSection(`#${entry.target.id}`)
         }
-      }
-
-      // ONLY place activeSection is written
-      if (mostVisibleEntry) {
-        const targetElement = mostVisibleEntry.target as HTMLElement
-        const newActiveSection = `#${targetElement.id}`
-        
-        setActiveSection((prev) => {
-          if (prev !== newActiveSection) {
-            return newActiveSection
-          }
-          return prev
-        })
-      }
+      })
     }
 
     const observer = new IntersectionObserver(observerCallback, observerOptions)
 
-    // Observe ALL sections including home
+    // Observe all sections defined in your page
     const sectionIds = ['home', 'timeline', 'contact']
     
     sectionIds.forEach((id) => {
@@ -125,51 +85,37 @@ export function NavBar({ items, className }: NavBarProps) {
       }
     })
 
-    // Let observer determine initial state - no URL override
-
-    return () => {
-      observer.disconnect()
-    }
+    return () => observer.disconnect()
   }, [pathname])
 
-  // URL synchronization - separate from observer logic
+  // 4. URL Sync (Optional: Updates the browser URL #hash without jumping)
   useEffect(() => {
-    if (pathname === '/' && activeSection && window.history.replaceState) {
+    if (pathname === '/' && activeSection) {
+      // We use replaceState so it doesn't clutter the "Back" button history
       window.history.replaceState(null, '', activeSection)
     }
   }, [activeSection, pathname])
 
-  // Simple active tab calculation
+  // 5. Active Tab Logic
   const activeTab = useMemo(() => {
-    // Route-based override for non-home pages
+    // If we are on a different page (like /blog), match the URL
     if (pathname !== '/') {
       const exactMatch = items.find(item => item.url === pathname)
-      if (exactMatch) return exactMatch.name
-      
-      // Blog page
-      if (pathname.startsWith('/blog')) {
-        return items.find(item => item.url === '/blog')?.name || 'Blog'
-      }
+      return exactMatch ? exactMatch.name : items[0].name
     }
     
-    // Home page: direct hash mapping
-    if (pathname === '/') {
-      const hashMatch = items.find(item => item.url === activeSection)
-      if (hashMatch) return hashMatch.name
-      
-      // Fallback to Home
-      return items.find(item => item.url === '#home')?.name || 'Home'
-    }
-    
-    return items[0]?.name || 'Home'
+    // If we are on Home, use the hash we detected (#home, #timeline, etc.)
+    const hashMatch = items.find(item => item.url === activeSection)
+    return hashMatch ? hashMatch.name : 'Home'
   }, [pathname, activeSection, items])
   
-  // Handle navigation
+  // 6. Smooth Scroll Click Handler
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
-    if (url.startsWith('#')) {
-      if (pathname !== '/') {
-        e.preventDefault()
-        window.location.href = `/${url}`
+    if (url.startsWith('#') && pathname === '/') {
+      e.preventDefault()
+      const element = document.querySelector(url)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' })
       }
     }
   }
@@ -185,7 +131,7 @@ export function NavBar({ items, className }: NavBarProps) {
         className={cn(
           "flex items-center gap-1 sm:gap-2 md:gap-3 border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg transition-all duration-300 pointer-events-auto",
           isScrolled
-            ? "bg-white border-gray-200"
+            ? "bg-white/90 border-gray-200"
             : "bg-gradient-to-r from-[#00b8c4]/20 via-[#00e5b7]/20 to-[#aaffc6]/20 border-[#03D6C4]/30"
         )}
       >
@@ -198,7 +144,6 @@ export function NavBar({ items, className }: NavBarProps) {
               key={item.name}
               href={item.url}
               onClick={(e) => handleNavClick(e, item.url)}
-              scroll={!item.url.startsWith('#') || pathname === '/'}
               className={cn(
                 "relative cursor-pointer text-xs sm:text-sm font-semibold px-3 sm:px-4 md:px-6 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0",
                 isScrolled
