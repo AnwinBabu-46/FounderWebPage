@@ -51,7 +51,7 @@ A modern, responsive portfolio website built with Next.js 14, showcasing the jou
    ```
 
 4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+   Navigate to [http://localhost:3000](http://localhost:3003)
 
 ## 🏗️ Project Structure
 
