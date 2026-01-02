@@ -62,7 +62,7 @@ const Hero = ({ imageSrc, imageAlt = "Jamanudeen P - Founder" }: HeroProps) => {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-4 sm:mb-6"
             >
               <span className="w-2 h-2 rounded-full bg-[#03D6C4]"></span>
-              <span className="text-white/90 text-sm font-medium tracking-wide">Hello, Welcome</span>
+              <span className="text-white text-sm font-medium tracking-wide">Hello, Welcome</span>
             </motion.div>
 
             {/* Name - CHANGE: Adjusted font sizes for better mobile fitting */}
