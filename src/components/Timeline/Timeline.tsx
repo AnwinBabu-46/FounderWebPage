@@ -42,7 +42,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         </p>
       </div>
 
-      <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
+      <div ref={ref} className="relative max-w-7xl mx-auto pb-20 overflow-hidden">
         {data.map((item, index) => (
           <motion.div
             key={index}
@@ -58,10 +58,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
             }}
           >
             {/* Sticky Title (Desktop) & Dot */}
-            <div className="sticky flex flex-col md:flex-row z-40 items-center top-40 self-start max-w-xs lg:max-w-sm md:w-full">
+            <div className="static md:sticky flex flex-col md:flex-row z-40 items-center md:top-40 self-start max-w-xs lg:max-w-sm md:w-full">
               
               {/* The Dot */}
-              <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-[var(--page-bg)] flex items-center justify-center z-50">
+              <div className="h-10 absolute left-8 w-10 rounded-full bg-[var(--page-bg)] flex items-center justify-center z-50">
                 <motion.div
                   variants={{
                     inactive: { scale: 0.8, backgroundColor: "#3f3f46" }, // Gray (neutral-700)
@@ -91,14 +91,14 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
                   }
                 }}
                 transition={{ duration: 0.4 }}
-                className="hidden md:block text-xl md:pl-20 md:text-5xl font-bold"
+                className="hidden md:block text-xl md:pl-16 md:text-5xl font-bold"
               >
                 {item.title}
               </motion.h3>
             </div>
 
             {/* THE CONTENT CARD (Zooms & Highlights) */}
-            <div className="relative pl-20 pr-4 md:pl-4 w-full">
+            <div className="relative pl-24 pr-4 md:pl-4 w-full">
               <motion.div
                 variants={{
                   inactive: { 
@@ -152,7 +152,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         {/* The Progress Line */}
         <div
           style={{ height: height + "px" }}
-          className="absolute md:left-8 left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 dark:via-neutral-700 to-transparent to-[99%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
+          className="absolute left-8 top-0 overflow-hidden w-[2px] bg-[linear-gradient(to_bottom,var(--tw-gradient-stops))] from-transparent from-[0%] via-neutral-200 dark:via-neutral-700 to-transparent to-[99%] [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
         >
           <motion.div
             style={{
