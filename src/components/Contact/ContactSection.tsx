@@ -4,7 +4,8 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Linkedin, Instagram, Mail, MapPin } from 'lucide-react'
+import { Linkedin, Instagram, Mail, MapPin, Loader2 } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 import type { FormData, SocialLink } from '../../types'
 
 const socialLinks: SocialLink[] = [
@@ -49,29 +50,38 @@ const ContactSection = () => {
 
     setIsSubmitting(true)
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          message: data.message
-        })
-      })
+    // 🔴 KEYS: These read from your .env.local file
+    const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!
+    const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!
+    const PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
 
-      if (!response.ok) {
-        throw new Error('Failed to send message')
-      }
+    // Check if keys exist before sending
+    if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
+      console.error('EmailJS Env Variables are missing!')
+      setSubmitStatus('error')
+      setIsSubmitting(false)
+      setTimeout(() => setSubmitStatus('idle'), 5000)
+      return
+    }
+
+    // Prepare data for EmailJS (Mapping your form fields to Template variables)
+    const templateParams = {
+        user_name: data.name,
+        user_email: data.email,
+        message: data.message
+    }
+
+    try {
+      // Send directly to EmailJS
+      await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
 
       setSubmitStatus('success')
-      reset()
+      reset() // Clear form
 
       // Reset status after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000)
     } catch (error) {
+      console.error('EmailJS Error:', error)
       setSubmitStatus('error')
 
       // Reset status after 5 seconds
@@ -195,7 +205,7 @@ const ContactSection = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-[#03D6C4] text-white"
+                className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 bg-[#03D6C4] text-white flex items-center justify-center gap-2"
                 onMouseEnter={(e) => {
                   if (!isSubmitting && !document.documentElement.classList.contains('dark')) {
                     e.currentTarget.style.backgroundColor = '#02B6A5';
@@ -210,13 +220,10 @@ const ContactSection = () => {
                 }}
               >
                   {isSubmitting ? (
-                    <span className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-neutral-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
+                    <>
+                      <Loader2 className="animate-spin -ml-1 h-5 w-5 text-white" />
                       Sending...
-                    </span>
+                    </>
                   ) : (
                     'Send Message'
                   )}
@@ -272,7 +279,7 @@ const ContactSection = () => {
                 >
                   <MapPin className="text-primary-new flex-shrink-0 mt-0.5 sm:mt-0" size={18} />
                   <span className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">My Azli Fresh 
-                     No :109/1 Immadihalli Main Rd, Nagondanahalli, Whitefield, Bengaluru, 560066</span>
+                      No :109/1 Immadihalli Main Rd, Nagondanahalli, Whitefield, Bengaluru, 560066</span>
                 </a>
               </div>
             </div>
@@ -293,7 +300,6 @@ const ContactSection = () => {
                       e.preventDefault()
                       window.location.href = social.url
                     }
-                    // For non-email links, let the default behavior work (opens in new tab)
                   }
                   return (
                     <a
@@ -326,7 +332,7 @@ const ContactSection = () => {
                 href="https://myazlifresh.com" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-primary inline-block text-sm sm:text-base no-underline relative z-10"
+                className="btn-primary inline-block text-sm sm:text-base no-underline relative z-10 bg-[#03D6C4] text-white px-4 py-2 rounded-lg"
               >
                 Learn More
               </a>
@@ -339,4 +345,3 @@ const ContactSection = () => {
 }
 
 export default ContactSection
-

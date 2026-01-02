@@ -3,23 +3,20 @@ import { BlogService } from '@/lib/blog-service';
 
 export async function POST(request: Request) {
   try {
-    const post = await request.json();
-    
+    const body = await request.json();
+
     // Basic validation
-    if (!post.title || !post.slug || !post.content) {
+    if (!body.title || !body.slug || !body.content) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
+    
+    // ✅ Supabase Update: We await the service because the DB call is async
+    // We also removed the ID calculation because Supabase handles IDs automatically
+    const created = await BlogService.create(body);
 
-    // Assign ID if missing (auto-increment max id)
-    if (!post.id) {
-      const all = BlogService.getAll();
-      const maxId = all.reduce((max, p) => Math.max(max, p.id), 0);
-      post.id = maxId + 1;
-    }
-
-    const created = BlogService.create(post);
     return NextResponse.json(created);
   } catch (error: any) {
+    console.error('API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

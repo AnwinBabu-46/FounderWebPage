@@ -1,9 +1,12 @@
-import { blogPostsSummarySorted } from '@/data/blog/posts';
+import { getBlogPostsSummarySorted } from '@/data/blog/posts';
 
 export async function GET() {
   const baseUrl = 'https://founder-webpage.vercel.app';
   
-  const items = blogPostsSummarySorted.map(post => `
+  // Fetch posts asynchronously
+  const posts = await getBlogPostsSummarySorted();
+  
+  const items = posts.map(post => `
     <item>
       <title><![CDATA[${post.title}]]></title>
       <link>${baseUrl}/blog/${post.slug}</link>
