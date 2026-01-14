@@ -2,13 +2,16 @@ import { notFound } from 'next/navigation';
 import { BlogService } from '@/lib/blog-service';
 import PostForm from '@/components/Admin/PostForm';
 
-// 1. Make the component ASYNC
+// ✅ FIX: Add these two lines to force fresh data every time
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function EditPostPage({ params }: { params: { slug: string } }) {
   
-  // 2. AWAIT the data fetching from Supabase
+  // 1. Fetch the LATEST data from Supabase
   const post = await BlogService.getBySlug(params.slug);
 
-  // 3. If no post is found in the DB, show 404
+  // 2. If no post is found in the DB, show 404
   if (!post) {
     notFound();
   }
@@ -17,7 +20,7 @@ export default async function EditPostPage({ params }: { params: { slug: string 
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-gray-900">Edit Post</h1>
       <div className="bg-white rounded-xl shadow-sm border p-6">
-        {/* Pass the data to the form */}
+        {/* Pass the fresh data to the form */}
         <PostForm initialData={post} isEditing />
       </div>
     </div>

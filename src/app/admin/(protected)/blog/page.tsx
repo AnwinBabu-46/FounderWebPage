@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // Import useRouter
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { 
   Loader2, Search, Plus, Calendar, ChevronLeft, ChevronRight, 
-  Edit, Eye, Trash2, CheckSquare, Square, X, AlertTriangle, CheckCircle2 
+  Edit, Trash2, CheckSquare, Square, AlertTriangle, CheckCircle2 
 } from 'lucide-react';
 
 interface Post {
@@ -20,6 +21,7 @@ interface Post {
 }
 
 export default function AdminBlogListPage() {
+  const router = useRouter(); // Initialize router
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,15 +33,12 @@ export default function AdminBlogListPage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<number | 'BATCH' | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [showToast, setShowToast] = useState(false); // Success popup
+  const [showToast, setShowToast] = useState(false);
 
-  // 1. Fetch Data
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
+  // 1. Fetch Data - Wrapped in useCallback to be stable
+  const fetchPosts = useCallback(async () => {
     setLoading(true);
+    // Add .range() or .limit() if you have thousands of posts to prevent slow loads
     const { data, error } = await supabase
       .from('posts')
       .select('*')
@@ -54,9 +53,16 @@ export default function AdminBlogListPage() {
         category: p.category || 'General',
       }));
       setPosts(mappedPosts);
+      
+      // FIX: Force Next.js router to refresh its cache whenever we load the list
+      router.refresh(); 
     }
     setLoading(false);
-  };
+  }, [router]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
   // 2. Filter & Pagination
   const filteredPosts = posts.filter(post => 
@@ -71,9 +77,9 @@ export default function AdminBlogListPage() {
   // 3. Selection Logic
   const handleSelectAll = () => {
     if (selectedIds.length === currentPosts.length) {
-      setSelectedIds([]); // Deselect all
+      setSelectedIds([]);
     } else {
-      setSelectedIds(currentPosts.map(p => p.id)); // Select all on current page
+      setSelectedIds(currentPosts.map(p => p.id));
     }
   };
 
@@ -93,11 +99,8 @@ export default function AdminBlogListPage() {
 
   const executeDelete = async () => {
     setIsDeleting(true);
-    
-    // Determine what to delete
     const idsToDelete = deleteTarget === 'BATCH' ? selectedIds : [deleteTarget];
     
-    // Supabase Delete Call
     const { error } = await supabase
       .from('posts')
       .delete()
@@ -106,14 +109,14 @@ export default function AdminBlogListPage() {
     if (error) {
       alert("Error deleting: " + error.message);
     } else {
-      // Success: Remove from local state immediately
       setPosts(prev => prev.filter(p => !idsToDelete.includes(p.id)));
-      setSelectedIds([]); // Clear selection
+      setSelectedIds([]);
       setIsDeleteModalOpen(false);
-      
-      // Show Success Toast
       setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000); // Hide after 3s
+      setTimeout(() => setShowToast(false), 3000);
+      
+      // FIX: Refresh router cache after delete to ensure sync
+      router.refresh(); 
     }
     setIsDeleting(false);
   };
@@ -205,6 +208,7 @@ export default function AdminBlogListPage() {
                         </td>
                         <td className="px-6 py-4 text-right">
                            <div className="flex justify-end gap-2">
+                              {/* Using Next Link for navigation */}
                               <Link href={`/admin/blog/${post.slug}`} className="p-2 hover:bg-gray-100 rounded-full text-gray-400 hover:text-teal-600" title="Edit">
                                   <Edit size={18} />
                               </Link>
@@ -230,7 +234,6 @@ export default function AdminBlogListPage() {
                 const isSelected = selectedIds.includes(post.id);
                 return (
                   <div key={post.id} className={`p-5 flex gap-4 transition-colors ${isSelected ? 'bg-teal-50/30' : 'hover:bg-gray-50'}`}>
-                     {/* Checkbox */}
                      <button onClick={() => handleSelectOne(post.id)} className="text-gray-400 pt-1">
                         {isSelected ? <CheckSquare size={20} className="text-teal-600" /> : <Square size={20} />}
                      </button>
@@ -239,7 +242,7 @@ export default function AdminBlogListPage() {
                         <div className="flex justify-between items-start">
                            <div>
                              <span className="text-[10px] font-bold text-teal-600 uppercase tracking-wide bg-teal-50 px-2 py-0.5 rounded-sm">
-                                 {post.category}
+                                  {post.category}
                              </span>
                              <h3 className="font-bold text-gray-900 mt-1.5 leading-tight">{post.title}</h3>
                            </div>
@@ -253,10 +256,10 @@ export default function AdminBlogListPage() {
                            
                            <div className="flex gap-4">
                              <Link href={`/admin/blog/${post.slug}`} className="text-sm font-bold text-teal-600">
-                                 Edit
+                                  Edit
                              </Link>
                              <button onClick={() => openDeleteModal(post.id)} className="text-sm font-bold text-red-500">
-                                 Delete
+                                  Delete
                              </button>
                            </div>
                         </div>
