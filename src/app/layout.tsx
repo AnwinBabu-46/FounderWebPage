@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import '../styles/globals.css'
 import { ConditionalNavbar } from '../components/Shared/ConditionalNavbar'
 
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-white text-[#0A0F1C] transition-colors duration-300">
         <ConditionalNavbar />
         {children}
+        <SpeedInsights />
       </body>
     </html>
   )
