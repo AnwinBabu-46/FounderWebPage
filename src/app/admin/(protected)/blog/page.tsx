@@ -1,13 +1,18 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Import useRouter
+
+import { useRouter } from 'next/navigation';
+
 import { supabase } from '@/lib/supabase';
+
 import { Button } from '@/components/ui/button';
+
 import { 
   Loader2, Search, Plus, Calendar, ChevronLeft, ChevronRight, 
-  Edit, Trash2, CheckSquare, Square, AlertTriangle, CheckCircle2 
+  Edit, Trash2, CheckSquare, Square, AlertTriangle, CheckCircle2, X
 } from 'lucide-react';
 
 interface Post {
@@ -21,7 +26,7 @@ interface Post {
 }
 
 export default function AdminBlogListPage() {
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,7 +43,7 @@ export default function AdminBlogListPage() {
   // 1. Fetch Data - Wrapped in useCallback to be stable
   const fetchPosts = useCallback(async () => {
     setLoading(true);
-    // Add .range() or .limit() if you have thousands of posts to prevent slow loads
+
     const { data, error } = await supabase
       .from('posts')
       .select('*')
@@ -54,7 +59,6 @@ export default function AdminBlogListPage() {
       }));
       setPosts(mappedPosts);
       
-      // FIX: Force Next.js router to refresh its cache whenever we load the list
       router.refresh(); 
     }
     setLoading(false);
@@ -115,7 +119,6 @@ export default function AdminBlogListPage() {
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
       
-      // FIX: Refresh router cache after delete to ensure sync
       router.refresh(); 
     }
     setIsDeleting(false);
@@ -208,7 +211,6 @@ export default function AdminBlogListPage() {
                         </td>
                         <td className="px-6 py-4 text-right">
                            <div className="flex justify-end gap-2">
-                              {/* Using Next Link for navigation */}
                               <Link href={`/admin/blog/${post.slug}`} className="p-2 hover:bg-gray-100 rounded-full text-gray-400 hover:text-teal-600" title="Edit">
                                   <Edit size={18} />
                               </Link>

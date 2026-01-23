@@ -1,17 +1,16 @@
 'use client';
-
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Loader2, Trash2, User, Camera, X, Check, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '@/lib/cropImage';
+import Image from 'next/image'; // ← Added this import
 
 export default function ProfileImageManager() {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   // UI States
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [toast, setToast] = useState<{ show: boolean; message: string; type: 'success' | 'error' }>({
@@ -19,13 +18,11 @@ export default function ProfileImageManager() {
     message: '',
     type: 'success'
   });
-
   // Cropper States
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-
   // 1. Fetch current avatar on load
   useEffect(() => {
     async function getProfile() {
@@ -34,18 +31,16 @@ export default function ProfileImageManager() {
         .select('avatar_url')
         .eq('id', 1)
         .single();
-      
+     
       if (data?.avatar_url) setAvatarUrl(data.avatar_url);
     }
     getProfile();
   }, []);
-
   // Helper: Show Toast
   const showToast = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ show: true, message, type });
     setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
   };
-
   // 2. Handle File Selection
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -56,7 +51,6 @@ export default function ProfileImageManager() {
       setZoom(1);
     }
   };
-
   const readFile = (file: File) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -64,21 +58,17 @@ export default function ProfileImageManager() {
       reader.readAsDataURL(file);
     });
   };
-
   const onCropComplete = useCallback((croppedArea: any, croppedAreaPixels: any) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
-
   // 3. Handle Save (Upload Cropped Image)
   const saveCroppedImage = async () => {
     try {
       setUploading(true);
       if (!imageSrc || !croppedAreaPixels) return;
-
       // A. Crop Image
       const croppedImageBlob = await getCroppedImg(imageSrc, croppedAreaPixels);
       if (!croppedImageBlob) throw new Error('Could not crop image');
-
       // B. Delete OLD image if exists (Cleanup)
       if (avatarUrl) {
         const oldFileName = avatarUrl.split('/').pop();
@@ -86,87 +76,73 @@ export default function ProfileImageManager() {
           await supabase.storage.from('images').remove([oldFileName]);
         }
       }
-
       // C. Upload NEW Image
       const fileName = `profile-avatar-${Math.random()}.jpg`;
       const { error: uploadError } = await supabase.storage
         .from('images')
         .upload(fileName, croppedImageBlob);
-
       if (uploadError) throw uploadError;
-
       // D. Get Public URL
       const { data: { publicUrl } } = supabase.storage
         .from('images')
         .getPublicUrl(fileName);
-
       // E. Update Database
       const { error: updateError } = await supabase
         .from('admin_profile')
         .update({ avatar_url: publicUrl, updated_at: new Date().toISOString() })
         .eq('id', 1);
-
       if (updateError) throw updateError;
-
       setAvatarUrl(publicUrl);
       setImageSrc(null); // Close cropper
       showToast('Profile picture updated successfully!');
-
     } catch (error: any) {
       showToast(error.message, 'error');
     } finally {
       setUploading(false);
     }
   };
-
   // 4. Handle Delete (DB + Storage)
   const confirmRemoveAvatar = async () => {
     try {
       setUploading(true);
       setShowDeleteModal(false);
-
       // A. Get current URL to find filename
       if (avatarUrl) {
         const fileName = avatarUrl.split('/').pop(); // Extract "profile-avatar-0.123.jpg"
-        
+       
         if (fileName) {
           // B. Remove from Storage
           const { error: storageError } = await supabase.storage
             .from('images')
             .remove([fileName]);
-            
+           
           if (storageError) console.error('Storage delete error:', storageError);
         }
       }
-
       // C. Update Database to NULL
       const { error: dbError } = await supabase
         .from('admin_profile')
         .update({ avatar_url: null })
         .eq('id', 1);
-
       if (dbError) throw dbError;
-      
+     
       setAvatarUrl(null);
       showToast('Profile picture removed.', 'success');
-
     } catch (error: any) {
       showToast(error.message, 'error');
     } finally {
       setUploading(false);
     }
   };
-
   const cancelCrop = () => {
     setImageSrc(null);
     setCrop({ x: 0, y: 0 });
     setZoom(1);
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
-
   return (
     <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center text-center h-full relative">
-      
+     
       {/* SUCCESS/ERROR TOAST */}
       {toast.show && (
         <div className={`absolute top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 whitespace-nowrap animate-in slide-in-from-top-2 fade-in ${
@@ -176,9 +152,8 @@ export default function ProfileImageManager() {
            <span className="text-sm font-medium">{toast.message}</span>
         </div>
       )}
-
       <h3 className="font-bold text-gray-900 mb-6 w-full text-left">Profile Picture</h3>
-      
+     
       {imageSrc ? (
         // --- CROPPER UI ---
         <div className="w-full flex flex-col items-center space-y-4">
@@ -195,7 +170,7 @@ export default function ProfileImageManager() {
               showGrid={false}
             />
           </div>
-          
+         
           <div className="w-64 flex items-center gap-2">
             <span className="text-xs text-gray-500">Zoom</span>
             <input
@@ -208,13 +183,12 @@ export default function ProfileImageManager() {
               className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer"
             />
           </div>
-
           <div className="flex gap-2">
             <Button onClick={cancelCrop} variant="outline" size="sm">
               <X size={16} className="mr-1" /> Cancel
             </Button>
             <Button onClick={saveCroppedImage} size="sm" disabled={uploading} className="bg-teal-600 hover:bg-teal-700">
-              {uploading ? <Loader2 className="animate-spin mr-1" size={16} /> : <Check size={16} className="mr-1" />} 
+              {uploading ? <Loader2 className="animate-spin mr-1" size={16} /> : <Check size={16} className="mr-1" />}
               Save
             </Button>
           </div>
@@ -225,17 +199,18 @@ export default function ProfileImageManager() {
           <div className="relative group">
             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-50 bg-gray-100 flex items-center justify-center shadow-inner relative">
               {avatarUrl ? (
-                <img 
-                  src={avatarUrl} 
-                  alt="Profile" 
-                  className="w-full h-full object-cover"
+                <Image
+                  src={avatarUrl}
+                  alt="Profile"
+                  fill
+                  unoptimized={true} // ← Safe fallback (behaves like <img> but removes the lint warning)
+                  className="object-cover"
                 />
               ) : (
                 <User size={48} className="text-gray-300" />
               )}
             </div>
-
-            <button 
+            <button
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
               className="absolute bottom-1 right-1 bg-black text-white p-2 rounded-full shadow-lg hover:bg-gray-800 transition-transform hover:scale-110"
@@ -243,7 +218,6 @@ export default function ProfileImageManager() {
               <Camera size={16} />
             </button>
           </div>
-
           <div className="mt-6 flex flex-col gap-3 w-full">
             <input
               type="file"
@@ -254,25 +228,23 @@ export default function ProfileImageManager() {
               className="hidden"
               disabled={uploading}
             />
-
             {avatarUrl && (
-              <Button 
-                variant="outline" 
-                onClick={() => setShowDeleteModal(true)} 
+              <Button
+                variant="outline"
+                onClick={() => setShowDeleteModal(true)}
                 disabled={uploading}
                 className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100"
               >
                 <Trash2 size={16} className="mr-2" /> Remove Photo
               </Button>
             )}
-            
+           
             <p className="text-xs text-gray-400 mt-2">
               Select an image and adjust to fit the circle.
             </p>
           </div>
         </>
       )}
-
       {/* --- DELETE CONFIRMATION MODAL --- */}
       {showDeleteModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in">
@@ -288,14 +260,14 @@ export default function ProfileImageManager() {
                    </p>
                 </div>
                 <div className="grid grid-cols-2 gap-3 w-full mt-2">
-                   <Button 
-                     variant="outline" 
+                   <Button
+                     variant="outline"
                      onClick={() => setShowDeleteModal(false)}
                      disabled={uploading}
                    >
                      Cancel
                    </Button>
-                   <Button 
+                   <Button
                      className="bg-red-600 hover:bg-red-700 text-white"
                      onClick={confirmRemoveAvatar}
                      disabled={uploading}

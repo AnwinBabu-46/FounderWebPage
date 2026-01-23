@@ -5,21 +5,25 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 
-// Define the interface for the image prop
 interface HeroProps {
-  imageSrc: string;
+  imageSrc?: string | null;
   imageAlt?: string; 
 }
 
 const Hero = ({ imageSrc, imageAlt = "Jamanudeen P - Founder" }: HeroProps) => {
   const [imageError, setImageError] = useState(false)
+  const defaultImage = "/images/founder.png"
+  const finalImage = (!imageSrc || imageError) ? defaultImage : imageSrc;
 
   const scrollToTimeline = () => {
     const element = document.getElementById('timeline')
-    element?.scrollIntoView({ behavior: 'smooth' })
+    if (element) {
+      const yOffset = -80;
+      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
   }
 
-  // Define the morphing animation values for the blob shape
   const blobAnimation = {
     borderRadius: [
       "60% 40% 30% 70% / 60% 30% 70% 40%",
@@ -31,155 +35,106 @@ const Hero = ({ imageSrc, imageAlt = "Jamanudeen P - Founder" }: HeroProps) => {
   return (
     <section 
       id="home"
-      // CHANGE: Use 100dvh (dynamic viewport height) for stable mobile height
-      className="min-h-[100dvh] flex items-center justify-center relative overflow-hidden px-4 sm:px-6 py-12 lg:py-0 bg-slate-900 supports-[height:100cqh]:h-[100cqh]"
+      className="relative min-h-[100svh] lg:h-screen flex items-center justify-center overflow-hidden pt-20 pb-32 lg:py-0 bg-[#020617]"
     >
-      {/* --- BACKGROUND ELEMENTS --- */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-[#0a2e2b] to-slate-900 opacity-90 z-0"></div>
-      
-      {/* CHANGE: Adjusted blob sizes and opacity for mobile to prevent visual clutter */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-20 -left-20 w-48 h-48 sm:w-72 sm:h-72 bg-[#03D6C4] rounded-full blur-[80px] sm:blur-[100px] opacity-20" />
-        <div className="absolute bottom-0 right-0 w-64 h-64 sm:w-96 sm:h-96 bg-[#02B6A5] rounded-full blur-[100px] sm:blur-[120px] opacity-10" />
+      {/* --- PREMIUM BACKGROUND LAYER --- */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Deep Mesh Gradients */}
+        <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] rounded-full bg-[#03D6C4]/10 blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-blue-600/10 blur-[120px]" />
+        
+        {/* Cinematic Grain/Noise Overlay */}
+        <div className="absolute inset-0 opacity-[0.15] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+        
+        {/* Subtle Grid for Tech Feel */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative z-10">
-        {/* CHANGE: Reduced gap from 12 to 8 on mobile to keep things compact */}
-        <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8 lg:gap-16">
+      <div className="container mx-auto px-6 lg:px-8 max-w-7xl relative z-10">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16">
           
-          {/* --- TEXT CONTENT --- */}
+          {/* IMAGE BLOCK - With Glassmorphism */}
           <motion.div
-            className="flex-1 text-center lg:text-left w-full lg:w-auto"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Greeting Pill */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-4 sm:mb-6"
-            >
-              <span className="w-2 h-2 rounded-full bg-[#03D6C4]"></span>
-              <span className="text-white/90 text-sm font-medium tracking-wide">Hello, Welcome</span>
-            </motion.div>
-
-            {/* Name - CHANGE: Adjusted font sizes for better mobile fitting */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-2 tracking-tight"
-            >
-              I&apos;m <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Jamanudeen</span>
-            </motion.h1>
-
-            {/* Role */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-[#03D6C4] mb-4 sm:mb-6"
-            >
-              Founder, My Azli Fresh
-            </motion.h2>
-
-            {/* Tagline */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
-            >
-              Transforming how chemical-free, fresh food reaches Indian families. 
-              <br className="hidden sm:block" />
-              <span className="text-gray-400 text-sm sm:text-base mt-2 block">
-                From coastal roots to urban innovation—a journey redefining freshness & purpose.
-              </span>
-            </motion.p>
-
-            {/* CTA Buttons - CHANGE: Full width buttons on very small screens */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start w-full sm:w-auto"
-            >
-              <button
-                onClick={scrollToTimeline}
-                className="px-8 py-4 font-bold rounded-xl transition-all duration-200 hover:brightness-110 active:scale-95 w-full sm:w-auto bg-[#03D6C4] text-white shadow-lg"
-              >
-                About Journey
-              </button>
-              <Link
-                href="/blog"
-                className="px-8 py-4 border border-white/20 bg-white/5 backdrop-blur-sm text-white font-semibold rounded-xl hover:bg-white/10 transition-all duration-200 active:scale-95 text-center w-full sm:w-auto"
-              >
-                Read Blog
-              </Link>
-            </motion.div>
-          </motion.div>
-
-          {/* --- NEW LIQUID BLOB IMAGE LAYOUT --- */}
-          <motion.div
-            className="flex-1 flex justify-center lg:justify-end w-full lg:w-auto relative"
-            initial={{ opacity: 0, scale: 0.9 }}
+            className="flex-1 flex justify-center lg:justify-end w-full order-1 lg:order-2"
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* CHANGE: Responsive Widths
-                - w-[280px] for very small screens
-                - w-[80vw] to ensure it never overflows screen width
-                - capped at larger sizes for desktop
-            */}
-            <div className="relative w-[280px] h-[280px] xs:w-[320px] xs:h-[320px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px]">
+            <div className="relative w-[280px] h-[280px] md:w-[440px] md:h-[440px] group">
+              {/* Outer Glow Ring */}
+              <div className="absolute inset-[-20px] bg-[#03D6C4]/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
-              {/* 1. Gradient Border Blob */}
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-tr from-[#03D6C4] via-blue-500 to-[#02B6A5] opacity-60 blur-sm"
+                className="absolute inset-0 bg-gradient-to-tr from-[#03D6C4] via-cyan-400 to-blue-600 opacity-40 shadow-2xl shadow-[#03D6C4]/20"
                 animate={blobAnimation}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               />
-
-              {/* 2. Background Glow */}
-               <motion.div 
-                className="absolute inset-1 bg-slate-800 z-0"
-                animate={blobAnimation}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              />
-
-              {/* 3. The Image Mask */}
+              
               <motion.div
-                className="absolute inset-[4px] overflow-hidden z-10"
+                className="absolute inset-[8px] overflow-hidden z-10 bg-slate-900 border border-white/10"
                 animate={blobAnimation}
-                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
               >
-                {!imageError ? (
-                  <Image
-                    src={imageSrc} 
-                    alt={imageAlt}
-                    fill
-                    className="object-cover scale-110"
-                    priority
-                    // CHANGE: Updated sizes to prioritize mobile loading
-                    sizes="(max-width: 640px) 300px, (max-width: 1024px) 450px, 500px"
-                    onError={() => setImageError(true)}
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-slate-800">
-                    <span className="text-white/20 text-5xl font-bold">JP</span>
-                  </div>
-                )}
-                
-                {/* 4. Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+                <Image
+                  src={finalImage} 
+                  alt={imageAlt}
+                  fill
+                  className="object-cover scale-105 group-hover:scale-110 transition-transform duration-1000 ease-in-out"
+                  priority
+                  onError={() => setImageError(true)}
+                />
+                {/* Image Inner Shadow */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
               </motion.div>
-
             </div>
           </motion.div>
 
+          {/* TEXT CONTENT */}
+          <motion.div
+            className="flex-1 text-center lg:text-left w-full order-2 lg:order-1"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#03D6C4]/10 border border-[#03D6C4]/20 backdrop-blur-md mb-8">
+              <span className="w-2 h-2 rounded-full bg-[#03D6C4] animate-ping" />
+              <span className="text-[#03D6C4] text-[10px] font-bold uppercase tracking-[0.3em]">The Founder&apos;s Vision</span>
+            </div>
+
+            <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white mb-6 tracking-tighter leading-[0.85]">
+              Meet <br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-white to-white/40">
+                Jamanudeen
+              </span>
+            </h1>
+
+            <p className="text-lg sm:text-xl text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+              Redefining Indian food systems through <span className="text-white">chemical-free innovation</span> and coastal integrity.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
+              <button
+                onClick={scrollToTimeline}
+                className="px-10 py-4 bg-[#03D6C4] text-[#020617] font-bold rounded-2xl hover:scale-105 hover:shadow-[0_0_30px_rgba(3,214,196,0.4)] transition-all active:scale-95"
+              >
+                Explore Journey
+              </button>
+              <Link
+                href="/blog"
+                className="px-10 py-4 border border-white/10 bg-white/5 text-white font-bold rounded-2xl hover:bg-white/10 transition-all backdrop-blur-md flex items-center justify-center gap-2 group"
+              >
+                Read Blog
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
+            </div>
+          </motion.div>
         </div>
+      </div>
+
+      {/* --- PROFESSIONAL BOTTOM FADE --- */}
+      <div className="absolute bottom-0 left-0 w-full z-20 pointer-events-none">
+        <div className="h-48 bg-gradient-to-t from-[#020617] via-[#020617]/80 to-transparent" />
+        <div className="h-12 bg-[#020617]" />
       </div>
     </section>
   )

@@ -20,22 +20,10 @@ interface NavBarProps {
 
 export function NavBar({ items, className }: NavBarProps) {
   const pathname = usePathname()
-  const [isMobile, setIsMobile] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('#home')
   const [isScrolled, setIsScrolled] = useState(false)
 
-  // 1. Resize Handler
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
-  // 2. Scroll Style Handler (Changes color when scrolling)
+  // 1. Scroll Style Handler (Kept your original style logic)
   useEffect(() => {
     if (pathname !== '/') {
       setIsScrolled(true)
@@ -43,8 +31,7 @@ export function NavBar({ items, className }: NavBarProps) {
     }
 
     const handleScroll = () => {
-      // Switch to solid background as soon as user scrolls down 50px
-      // This is more reliable than calculating bounding rects for the hero
+      // Switches to solid background after 50px scroll
       setIsScrolled(window.scrollY > 50)
     }
 
@@ -53,14 +40,15 @@ export function NavBar({ items, className }: NavBarProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [pathname])
 
-  // 3. THE FIX: IntersectionObserver with "Center Line" Logic
+  // 2. THE FIX: Smart "Auto-Detect" Intersection Observer
+  // This is what fixes the "Sticking" issue on mobile/laptop
   useEffect(() => {
     if (pathname !== '/') return
 
     const observerOptions = {
       root: null,
-      // This margin creates a narrow "trigger zone" in the middle of the screen.
-      // The navbar updates ONLY when a section crosses this center line.
+      // -45% margin means the trigger line is exactly in the middle of the screen
+      // This works perfectly on Mobile AND Laptop
       rootMargin: '-45% 0px -45% 0px',
       threshold: 0
     }
@@ -68,6 +56,7 @@ export function NavBar({ items, className }: NavBarProps) {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          // Updates the active tab to match the section currently in the middle of the screen
           setActiveSection(`#${entry.target.id}`)
         }
       })
@@ -75,47 +64,37 @@ export function NavBar({ items, className }: NavBarProps) {
 
     const observer = new IntersectionObserver(observerCallback, observerOptions)
 
-    // Observe all sections defined in your page
-    const sectionIds = ['home', 'timeline', 'contact']
-    
-    sectionIds.forEach((id) => {
-      const element = document.getElementById(id)
-      if (element) {
-        observer.observe(element)
-      }
-    })
+    // DYNAMIC FIX: Instead of hardcoding ['home', 'timeline'], 
+    // we find ALL sections on the page automatically.
+    const sections = document.querySelectorAll('section[id]')
+    sections.forEach((section) => observer.observe(section))
 
     return () => observer.disconnect()
   }, [pathname])
 
-  // 4. URL Sync (Optional: Updates the browser URL #hash without jumping)
-  useEffect(() => {
-    if (pathname === '/' && activeSection) {
-      // We use replaceState so it doesn't clutter the "Back" button history
-      window.history.replaceState(null, '', activeSection)
-    }
-  }, [activeSection, pathname])
-
-  // 5. Active Tab Logic
+  // 3. Active Tab Logic
   const activeTab = useMemo(() => {
-    // If we are on a different page (like /blog), match the URL
     if (pathname !== '/') {
       const exactMatch = items.find(item => item.url === pathname)
       return exactMatch ? exactMatch.name : items[0].name
     }
     
-    // If we are on Home, use the hash we detected (#home, #timeline, etc.)
+    // Matches the detected section to the menu item
+    // If the section isn't in the menu (like "Mission"), it keeps the last valid tab
     const hashMatch = items.find(item => item.url === activeSection)
-    return hashMatch ? hashMatch.name : 'Home'
+    return hashMatch ? hashMatch.name : activeSection === '#home' ? 'Home' : items.find(i => i.url === '#timeline')?.name || 'Home'
   }, [pathname, activeSection, items])
   
-  // 6. Smooth Scroll Click Handler
+  // 4. Smooth Scroll Click Handler
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string) => {
     if (url.startsWith('#') && pathname === '/') {
       e.preventDefault()
       const element = document.querySelector(url)
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' })
+        // Offset ensures the section title isn't hidden under the navbar
+        const yOffset = -80; 
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
       }
     }
   }
@@ -123,13 +102,16 @@ export function NavBar({ items, className }: NavBarProps) {
   return (
     <div
       className={cn(
-        "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-6 sm:pt-6 pointer-events-none",
+        // Mobile: Fixed at Bottom | Desktop: Fixed at Top
+        // Changed bottom-0 to bottom-4/6 for better Mobile touch area
+        "fixed bottom-4 sm:bottom-auto sm:top-0 left-1/2 -translate-x-1/2 z-50 mb-0 sm:pt-6 pointer-events-none w-full sm:w-auto flex justify-center",
         className,
       )}
     >
       <div
         className={cn(
           "flex items-center gap-1 sm:gap-2 md:gap-3 border backdrop-blur-lg py-1 px-1 rounded-full shadow-lg transition-all duration-300 pointer-events-auto",
+          // YOUR ORIGINAL STYLES PRESERVED HERE
           isScrolled
             ? "bg-white/90 border-gray-200"
             : "bg-gradient-to-r from-[#00b8c4]/20 via-[#00e5b7]/20 to-[#aaffc6]/20 border-[#03D6C4]/30"
@@ -145,7 +127,7 @@ export function NavBar({ items, className }: NavBarProps) {
               href={item.url}
               onClick={(e) => handleNavClick(e, item.url)}
               className={cn(
-                "relative cursor-pointer text-xs sm:text-sm font-semibold px-3 sm:px-4 md:px-6 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0",
+                "relative cursor-pointer text-xs sm:text-sm font-semibold px-3 sm:px-4 md:px-6 py-2 rounded-full transition-colors whitespace-nowrap flex-shrink-0 flex items-center gap-2",
                 isScrolled
                   ? "text-[#0A1F44] hover:text-[#03D6C4]"
                   : "text-white hover:text-[#5CF4A2]",
@@ -156,8 +138,10 @@ export function NavBar({ items, className }: NavBarProps) {
             >
               <span className="hidden sm:inline">{item.name}</span>
               <span className="sm:hidden">
-                <Icon size={18} strokeWidth={2.5} />
+                <Icon size={20} strokeWidth={2.5} />
               </span>
+              
+              {/* YOUR ORIGINAL LAMP ANIMATION CODE */}
               {isActive && (
                 <motion.div
                   layoutId="lamp"
