@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-// If this import fails, remove it and define the interface locally
 import { BlogPostFull } from '@/data/blog/types'; 
 import { Button } from '@/components/ui/button';
 import { 
@@ -27,7 +26,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   
-  // UI States for Modals and Toasts
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [toast, setToast] = useState<{ show: boolean; message: string; type: 'success' | 'error' }>({
     show: false,
@@ -35,7 +33,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
     type: 'success'
   });
 
-  // Helper to get YYYY-MM-DD format for the Date Input safely
   const formatDateForInput = (dateString?: string) => {
     try {
       if (!dateString) return new Date().toISOString().split('T')[0];
@@ -57,7 +54,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
     content: initialData?.content || '',
   });
 
-  // Sync initialData if it loads later
   useEffect(() => {
     if (initialData) {
         setFormData(prev => ({
@@ -68,14 +64,11 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
     }
   }, [initialData]);
 
-  // Helper: Show Toast Notification
   const showToastMessage = (message: string, type: 'success' | 'error' = 'success') => {
     setToast({ show: true, message, type });
-    // Auto hide after 3 seconds
     setTimeout(() => setToast(prev => ({ ...prev, show: false })), 3000);
   };
 
-  // Helper: Generate a unique URL-friendly slug
   const generateSlug = (title: string) => {
     const cleanTitle = (title || '')
       .toLowerCase()
@@ -90,7 +83,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    
     setFormData(prev => {
       const updates = { ...prev, [name]: value };
       if (name === 'title' && !isEditing) {
@@ -106,13 +98,15 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
     }
   };
 
+  // --- UPDATED: handleSubmit to use ID ---
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
+      // 🟢 FIX: Use ID if editing, otherwise use general endpoint
       const url = isEditing 
-        ? `/api/admin/posts/${initialData?.slug}` 
+        ? `/api/admin/posts/${initialData?.id}` 
         : '/api/admin/posts';
       
       const method = isEditing ? 'PUT' : 'POST';
@@ -120,7 +114,10 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          id: initialData?.id // Ensure ID is sent in the body too
+        }),
       });
 
       if (!res.ok) {
@@ -128,10 +125,8 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
         throw new Error(data.error || 'Failed to save post');
       }
 
-      // Success!
       showToastMessage(isEditing ? 'Post updated successfully!' : 'Post published successfully!');
       
-      // Wait a moment so user sees the toast, then redirect
       setTimeout(() => {
         router.push('/admin/blog');
         router.refresh();
@@ -143,12 +138,15 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
     }
   };
 
+  // --- UPDATED: handleConfirmDelete to use ID ---
   const handleConfirmDelete = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/posts/${initialData?.slug}`, {
+      // 🟢 FIX: Call the API using the ID, not the slug
+      const res = await fetch(`/api/admin/posts/${initialData?.id}`, {
         method: 'DELETE',
       });
+      
       if (!res.ok) throw new Error('Failed to delete');
       
       showToastMessage('Post deleted successfully', 'success');
@@ -170,7 +168,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
     <div className="relative">
       <form onSubmit={handleSubmit} className="w-full max-w-6xl mx-auto pb-24 lg:pb-0">
         
-        {/* Error/Success Banner (Mobile) */}
         {toast.show && (
           <div className={`fixed top-4 right-4 z-50 p-4 rounded-lg shadow-xl flex items-center gap-3 animate-in slide-in-from-top-5 fade-in duration-300 ${
             toast.type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' : 'bg-green-50 text-green-700 border border-green-200'
@@ -181,11 +178,7 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
         )}
 
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 p-4 lg:p-0">
-          
-          {/* LEFT COLUMN: Main Content */}
           <div className="flex-1 space-y-6 order-2 lg:order-1">
-            
-            {/* Post Details Card */}
             <div className="bg-white p-5 sm:p-6 rounded-xl shadow-sm border border-gray-100 space-y-5">
               <h3 className="font-bold text-lg text-gray-800 flex items-center gap-2">
                 ✏️ <span className="border-b-2 border-teal-100">Post Content</span>
@@ -234,16 +227,12 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
             </div>
           </div>
 
-          {/* RIGHT COLUMN: Settings (Sidebar) */}
           <div className="w-full lg:w-80 space-y-6 order-1 lg:order-2">
-            
-            {/* Card: Publishing Settings */}
             <div className="bg-gray-50 p-5 rounded-xl border border-gray-200 shadow-sm space-y-5">
               <h3 className="font-bold text-gray-800 border-b border-gray-200 pb-3 flex items-center gap-2">
                 ⚙️ <span>Settings</span>
               </h3>
 
-              {/* Date Picker */}
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide">Publish Date</label>
                 <input
@@ -256,7 +245,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
                 />
               </div>
 
-              {/* Read Time Dropdown */}
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide">Read Time</label>
                 <div className="relative">
@@ -275,7 +263,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
                 </div>
               </div>
 
-              {/* Category */}
               <div className="space-y-2">
                 <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide">Category</label>
                 <input
@@ -288,7 +275,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
                 />
               </div>
 
-              {/* Slug Field */}
               <div className="space-y-2 pt-2 border-t border-gray-200">
                 <div className="flex justify-between items-center">
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide">URL Slug</label>
@@ -306,7 +292,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
               </div>
             </div>
 
-            {/* Desktop Actions */}
             <div className="hidden lg:flex flex-col gap-3 sticky top-6">
               <Button
                 type="submit"
@@ -335,7 +320,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
           </div>
         </div>
 
-        {/* MOBILE STICKY ACTION BAR */}
         <div className="fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] lg:hidden flex gap-3 z-40">
           <Button type="button" variant="outline" onClick={() => router.back()} className="flex-1">
             Cancel
@@ -347,7 +331,6 @@ export default function PostForm({ initialData, isEditing = false }: PostFormPro
 
       </form>
 
-      {/* 🔴 SAFETY DELETE MODAL */}
       {showDeleteModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 transform transition-all scale-100">

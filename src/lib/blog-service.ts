@@ -11,9 +11,9 @@ export const BlogService = {
     if (error) return []
     return data.map((post) => ({
       ...post,
-      date: post.published_at, // Map DB column to UI
-      teaser: post.excerpt,    // Map DB column to UI
-      readTime: post.read_time // Map DB column to UI
+      date: post.published_at, 
+      teaser: post.excerpt,    
+      readTime: post.read_time 
     }))
   },
 
@@ -43,8 +43,8 @@ export const BlogService = {
         slug: postData.slug,
         category: postData.category,
         content: postData.content,
-        excerpt: postData.teaser,      // UI sends 'teaser', DB wants 'excerpt'
-        read_time: postData.readTime,  // UI sends 'readTime', DB wants 'read_time'
+        excerpt: postData.teaser,
+        read_time: postData.readTime,
         published_at: postData.date,
       }])
       .select()
@@ -53,8 +53,8 @@ export const BlogService = {
     return data
   },
 
-  // UPDATE
-  update: async (slug: string, postData: any) => {
+  // 🟢 UPDATED: Use ID instead of Slug
+  update: async (id: string, postData: any) => {
     const { data, error } = await supabase
       .from('posts')
       .update({
@@ -66,19 +66,19 @@ export const BlogService = {
         read_time: postData.readTime,
         published_at: postData.date,
       })
-      .eq('slug', slug)
+      .eq('id', id) // Find post by ID
       .select()
 
     if (error) throw error
     return data
   },
 
-  // DELETE
-  delete: async (slug: string) => {
+  // 🟢 UPDATED: Use ID instead of Slug
+  delete: async (id: string) => {
     const { error } = await supabase
       .from('posts')
       .delete()
-      .eq('slug', slug)
+      .eq('id', id) // Delete post by ID
 
     if (error) throw error
     return true
