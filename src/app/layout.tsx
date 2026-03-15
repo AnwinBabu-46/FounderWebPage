@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-white text-[#0A0F1C] transition-colors duration-300">
         <ConditionalNavbar />
         {children}
-        <!-- Google tag (gtag.js) -->
+       
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WH12TY75PF"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
